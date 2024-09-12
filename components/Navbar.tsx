@@ -70,7 +70,7 @@ const Navbar = () => {
         <div className="flex items-center space-x-3 md:space-x-7">
           <div className="">
             <Link href="/dashboard">
-              <p className="hidden md:inline-block">Dashboard</p>
+              <p className="hidden md:inline-block hover:underline">Dashboard</p>
               <ChartColumnBig className="stroke-[1.5] md:hidden" />
             </Link>
           </div>

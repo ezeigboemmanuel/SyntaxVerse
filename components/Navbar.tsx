@@ -21,7 +21,7 @@ const Navbar = () => {
         <div
           className={
             isNavOpen
-              ? "absolute w-full h-screen top-0 left-0 z-10 bg-[#F3F3F5] flex flex-col justify-evenly items-center"
+              ? "fixed w-full h-screen top-0 left-0 z-10 bg-[#F3F3F5] flex flex-col justify-evenly items-centre"
               : "hidden"
           }
         >

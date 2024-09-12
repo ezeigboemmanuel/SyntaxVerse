@@ -3,7 +3,6 @@ import Image2 from "@/assets/uximage.jpg";
 import Image3 from "@/assets/featuredimg.jpg";
 import Image from "next/image";
 import { Button } from "./ui/button";
-import { AspectRatio } from "./ui/aspect-ratio";
 
 const BlogList = () => {
   const blogs = [

@@ -20,7 +20,7 @@ export default function RootLayout({
         className={`${lato.className} antialiased bg-[#F3F3F5]`}
       >
         <Navbar />
-        <div className="px-3 md:px-6">{children}</div>
+        <div className="px-3 md:px-6 max-w-[1400px] mx-auto">{children}</div>
         
       </body>
     </html>

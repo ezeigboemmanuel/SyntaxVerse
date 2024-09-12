@@ -8,7 +8,7 @@ import Searchbar from "./Searchbar";
 const Navbar = () => {
   const [isNavOpen, setIsNavOpen] = useState(false);
   return (
-    <div className="flex justify-between items-center max-w-[1400px] mx-auto px-3 md:px-6 py-6 border-b shadow-sm">
+    <div className="flex justify-between items-center max-w-[1400px] mx-auto px-3 md:px-6 py-4 md:py-6 border-b shadow-sm">
       <div className="flex items-center space-x-3">
         <label className="font-semibold">Ztheta</label>
         <div><Searchbar /></div>

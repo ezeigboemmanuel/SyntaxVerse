@@ -14,7 +14,7 @@ const Tags = () => {
     <div className="pt-4">
       <div>
         {tags.map((tag) => (
-          <Button key={tag} variant="outline" className="mr-2 mb-2 rounded-full border border-black text-black hover:bg-[#6C40FE] hover:text-white hover:border-white">{tag}</Button>
+          <Button key={tag} variant="outline" className="mr-2 mb-2 rounded-full border border-gray-600 text-gray-600 hover:bg-[#6C40FE] hover:text-white hover:border-white">{tag}</Button>
         ))}
       </div>
     </div>

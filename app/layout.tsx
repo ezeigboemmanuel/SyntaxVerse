@@ -1,20 +1,8 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
 import "./globals.css";
 import {Lato} from "next/font/google"
+import Navbar from "@/components/Navbar";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
-});
-
-// const lato = Lato({subsets: ["latin"]})
 const lato = Lato({subsets: ["latin"], weight: ["100", "300", "400", "700", "900"]});
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -29,9 +17,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${lato.className} antialiased`}
+        className={`${lato.className} antialiased bg-[#F3F3F5]`}
       >
-        {children}
+        <Navbar />
+        <div className="px-3 md:px-6">{children}</div>
+        
       </body>
     </html>
   );

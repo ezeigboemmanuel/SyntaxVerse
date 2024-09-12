@@ -3,6 +3,7 @@ import "./globals.css";
 import {Lato} from "next/font/google"
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import BackToTopButton from "@/components/BackToTopBtn";
 
 const lato = Lato({subsets: ["latin"], weight: ["100", "300", "400", "700", "900"]});
 export const metadata: Metadata = {
@@ -23,6 +24,7 @@ export default function RootLayout({
         <Navbar />
         <div className="px-3 md:px-6 max-w-[1400px] mx-auto">{children}</div>
         <Footer />
+        <BackToTopButton />
       </body>
     </html>
   );

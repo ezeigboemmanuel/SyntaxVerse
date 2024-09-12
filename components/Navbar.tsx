@@ -9,9 +9,9 @@ const Navbar = () => {
   const [isNavOpen, setIsNavOpen] = useState(false);
   return (
     <div className="flex justify-between items-center max-w-[1400px] mx-auto px-3 md:px-6 py-4 md:py-6 border-b shadow-sm">
-      <div className="flex items-center space-x-3">
+      <div className="flex items-center space-x-3 w-full">
         <label className="font-semibold">Ztheta</label>
-        <div><Searchbar /></div>
+        <div className="w-full"><Searchbar /></div>
       </div>
       <section className="flex md:hidden items-center">
         <div className="space-y-2 pr-2" onClick={() => setIsNavOpen(true)}>
@@ -34,7 +34,7 @@ const Navbar = () => {
           <div className="flex flex-col items-center space-y-3 min-h-[250px] w-full px-3 uppercase">
             <div>
               <Link href="/dashboard">
-                <p className="font-semibold">Dashboard</p>
+                <p className="font-semibold text-gray-600">Dashboard</p>
               </Link>
             </div>
 
@@ -50,7 +50,7 @@ const Navbar = () => {
 
       <section className="hidden md:flex justify-between">
         <div className="flex items-center space-x-7">
-          <div>
+          <div className="text-gray-600">
             <Link href="/dashboard">
               <p>Dashboard</p>
             </Link>

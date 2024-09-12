@@ -27,7 +27,7 @@ const Footer = () => {
                 <input
                   type="search"
                   id="default-search"
-                  className="block w-full p-3 ps-4 text-sm text-gray-900 border border-gray-500 rounded-full bg-transparent"
+                  className="block w-full p-3 ps-4 text-sm text-gray-300 border border-gray-500 rounded-full bg-transparent"
                   placeholder="Enter your email"
                   required
                 />

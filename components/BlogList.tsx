@@ -35,7 +35,7 @@ const BlogList = () => {
               <Image src={blog.image} alt="blog_img" className="rounded-xl object-cover object-center h-80" />
             </div>
 
-            <div className="uppercase text-gray-600 flex justify-between items-center text-xs md:text-sm mb-2 md:mb-4 mt-4 px-2">
+            <div className="uppercase text-gray-600 flex justify-between items-center text-xs md:text-sm  md:mb-4 mt-4 px-2">
               <div
                 className="mr-2 mb-2 rounded-full border border-gray-600 hover:bg-transparent
              text-gray-600 hover:text-gray-600 cursor-default text-xs md:text-sm px-5 py-1.5"

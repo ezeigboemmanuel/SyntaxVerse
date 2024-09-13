@@ -7,7 +7,7 @@ const Footer = () => {
       <div className="flex flex-col md:flex-row md:space-x-28 lg:space-x-52 md:justify-between">
         <div className="mb-8 basis-1/2">
           <p className="font-bold text-xl text-white font-mono mb-2">Ztheta</p>
-          <p className="tracking-wide">
+          <p>
             Ztheta is a collaborative platform where users can create and share
             tech blogs, offering insights on the latest trends, tools, and
             innovations in the tech industry.
@@ -45,7 +45,7 @@ const Footer = () => {
 
       <hr className="mt-6 mb-6 border-gray-600" />
 
-      <div className="w-full max-w-screen-xl mx-auto p-2">
+      <div className="w-full max-w-screen-xl mx-auto">
         <div className="sm:flex sm:items-center sm:justify-between">
           <div className="mb-4">
             <Link
@@ -71,7 +71,7 @@ const Footer = () => {
             <li>
               <Link
                 href="/"
-                className="hover:underline font-[500] me-4 md:me-6"
+                className="hover:underline font-[500] me-2 md:me-6"
               >
                 About
               </Link>
@@ -79,7 +79,7 @@ const Footer = () => {
             <li>
               <Link
                 href="/privacy-policy"
-                className="hover:underline font-[500] me-4 md:me-6"
+                className="hover:underline font-[500] me-2 md:me-6"
               >
                 Privacy Policy
               </Link>
@@ -88,7 +88,7 @@ const Footer = () => {
               <Link
                 href="https://www.linkedin.com/in/ezeigbo-emmanuel-88393a202/"
                 target="_blank"
-                className="hover:underline font-[500] me-4 md:me-6"
+                className="hover:underline font-[500] me-2 md:me-6"
               >
                 LinkedIn
               </Link>
@@ -97,7 +97,7 @@ const Footer = () => {
               <Link
                 href="https://x.com/zgbocode"
                 target="_blank"
-                className="hover:underline font-[500] me-4 md:me-6"
+                className="hover:underline font-[500] me-2 md:me-6"
               >
                 Twitter/X
               </Link>

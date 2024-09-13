@@ -7,29 +7,29 @@ const BlogPage = () => {
   return (
     <div className="pt-6">
       {/* Left side */}
-      <div>
+      <div className="max-w-5xl mx-auto">
         <div className="flex flex-col space-y-3">
           <div className="flex justify-between space-x-2">
             <div className="flex items-center space-x-2">
               <Image
                 src={AuthorImg}
                 alt="profile_img"
-                className="h-14 w-14 rounded-full"
+                className="h-12 w-12 rounded-full"
               />
               <div>
                 {/* should go to user page */}
-                <p className="font-semibold text-lg hover:underline">
+                <p className="font-semibold hover:underline md:text-lg">
                   Ria Donalds
                 </p>
-                <p className="text-gray-500">Author</p>
+                <p className="text-gray-500 text-sm md:text-base">Author</p>
               </div>
             </div>
 
-            <div className="flex space-x-3 items-center">
-              <Share />
+            <div className="flex space-x-3 md:space-x-5 items-center">
+              <Share className="h-5 w-5" />
               <div className="flex space-x-1 items-center">
-                <Heart />
-                <p className="text-lg">23</p>
+                <Heart className="h-5 w-5" />
+                <p>23</p>
               </div>
             </div>
           </div>
@@ -37,11 +37,19 @@ const BlogPage = () => {
             {tags.map((tag) => (
               <div
                 key={tag}
-                className="mr-2 bg-gray-800 text-gray-200 text-sm inline-flex items-center px-5 py-1.5 rounded-full"
+                className="mr-2 bg-gray-800 text-gray-200 text-xs md:text-sm inline-flex items-center px-5 py-1.5 rounded-full"
               >
                 {tag}
               </div>
             ))}
+          </div>
+        </div>
+
+        {/* Content */}
+
+        <div>
+          <div>
+            <h1></h1>
           </div>
         </div>
       </div>

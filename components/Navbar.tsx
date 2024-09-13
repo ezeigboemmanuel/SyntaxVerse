@@ -31,18 +31,30 @@ const Navbar = () => {
       </div>
 
       <section className="flex justify-between">
-        <div className="flex items-center space-x-3 md:space-x-7">
-          <div className="">
+        <div className="flex items-center space-x-2 md:space-x-4">
+          <div className="hidden md:flex space-x-4 w-full text-gray-800">
             <Link href="/dashboard">
-              <p className="hidden md:inline-block hover:underline">
+              <p className="hidden md:inline-block hover:underline ml-3">
                 Dashboard
               </p>
             </Link>
-            <DropdownMenu>
+            <Link href="/dashboard">
+              <p className="hidden md:inline-block hover:underline">
+                Profile
+              </p>
+            </Link>
+            <Link href="/dashboard">
+              <p className="hidden md:inline-block hover:underline text-nowrap">
+                Log out
+              </p>
+            </Link>
+           
+          </div>
+          <DropdownMenu>
               <DropdownMenuTrigger>
-                <Settings className="stroke-[1.5] md:hidden mt-1.5" />
+                <Settings className="stroke-[1.5] md:hidden h-5 w-5" />
               </DropdownMenuTrigger>
-              <DropdownMenuContent>
+              <DropdownMenuContent className="text-gray-900 bg-[#FCFCFE]">
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>
@@ -59,14 +71,13 @@ const Navbar = () => {
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-          </div>
           <div>
             <Button className="rounded-full hidden md:flex">
               Sign in to write{" "}
               <SquarePen className="ml-2 stroke-[1.5] w-5 h-5" />
             </Button>
 
-            <SquarePen className="ml-2 stroke-[1.5] md:hidden" />
+            <SquarePen className="ml-1 stroke-[1.5] md:hidden h-5 w-5" />
           </div>
         </div>
       </section>

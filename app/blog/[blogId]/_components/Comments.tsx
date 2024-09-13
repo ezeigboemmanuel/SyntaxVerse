@@ -17,7 +17,7 @@ const Comments = () => {
     <div>
       <h1 className="font-semibold text-lg mb-3 md:hidden">Comments (32)</h1>
       <div className="flex flex-col md:flex-row justify-between w-full md:space-x-6">
-        <div className="flex basis-1/2 flex-col w-full border shadow-lg p-4 max-w-lg rounded-lg">
+        <div className="flex basis-1/2 bg-white flex-col w-full border shadow-lg p-4 max-w-lg rounded-lg">
           <textarea
             placeholder="What are your thoughts?"
             className="bg-transparent focus:outline-none resize-none"

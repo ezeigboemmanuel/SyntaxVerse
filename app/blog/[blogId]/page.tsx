@@ -1,12 +1,9 @@
-import LeftSide from "./_components/LeftSide";
+import SinglePageBlog from "./_components/SinglePageBlog";
 
 const BlogPage = () => {
   return (
     <div className="pt-6">
-      {/* Left side */}
-      <LeftSide />
-      {/* Right side */}
-      <div></div>
+      <SinglePageBlog />
     </div>
   );
 };

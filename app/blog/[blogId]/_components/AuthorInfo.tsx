@@ -4,10 +4,11 @@ import Xicon from "@/assets/xicon.svg";
 import Facebookicon from "@/assets/facebookicon.svg";
 import Instaicon from "@/assets/instaicon.svg";
 import Whatsicon from "@/assets/whatsicon.svg";
+import { Separator } from "@/components/ui/separator";
 
 const AuthorInfo = () => {
   return (
-    <div className="bg-[#FCFCFE] py-10 mt-10 -m-4 px-4 md:px-8">
+    <div className="bg-[#FCFCFE] pt-10 mt-10 -m-4 px-4 md:px-8">
       <h3 className="font-semibold mb-3 text-lg">Written by:</h3>
 
       <div>
@@ -30,7 +31,7 @@ const AuthorInfo = () => {
           user-friendly interfaces using technologies like HTML, CSS,
           JavaScript, React, and Tailwind CSS.
         </p>
-        <div className="flex space-x-2 mt-3">
+        <div className="flex space-x-2 md:space-x-4 mt-4">
           <p>
             <Image src={Xicon} alt="X" />
           </p>
@@ -44,6 +45,9 @@ const AuthorInfo = () => {
             <Image src={Whatsicon} alt="whatsapp" />
           </p>
         </div>
+      </div>
+      <div className="py-10">
+        <Separator />
       </div>
     </div>
   );

@@ -36,13 +36,12 @@ const BlogList = () => {
             </div>
 
             <div className="uppercase text-gray-600 flex justify-between items-center text-xs md:text-sm mb-2 md:mb-4 mt-4 px-2">
-              <Button
-                variant="outline"
+              <div
                 className="mr-2 mb-2 rounded-full border border-gray-600 hover:bg-transparent
-             text-gray-600 hover:text-gray-600 cursor-default text-xs md:text-sm"
+             text-gray-600 hover:text-gray-600 cursor-default text-xs md:text-sm px-5 py-1.5"
               >
                 {blog.tag}
-              </Button>
+              </div>
               <p>{blog.date}</p>
             </div>
 

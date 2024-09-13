@@ -3,7 +3,7 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <div className="bg-[#262626] rounded-t-2xl md:rounded-t-3xl text-gray-300 p-5 md:px-16 pt-14 md:pt-20 mt-10">
+    <div className="bg-[#262626] max-w-[1400px] mx-auto rounded-t-2xl md:rounded-t-3xl text-gray-300 p-5 md:px-16 pt-14 md:pt-20 mt-10">
       <div className="flex flex-col md:flex-row md:space-x-28 lg:space-x-52 md:justify-between">
         <div className="mb-8 basis-1/2">
           <p className="font-bold text-xl text-white font-mono mb-2">Ztheta</p>

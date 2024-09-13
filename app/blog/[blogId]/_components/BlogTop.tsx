@@ -1,5 +1,5 @@
 import Image from "next/image";
-import AuthorImg from "@/assets/authorimg.jpg";;
+import AuthorImg from "@/assets/authorimg.jpg";
 import {
   Heart,
   Share,

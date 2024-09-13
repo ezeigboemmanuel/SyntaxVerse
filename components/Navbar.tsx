@@ -39,38 +39,39 @@ const Navbar = () => {
               </p>
             </Link>
             <Link href="/dashboard">
-              <p className="hidden md:inline-block hover:underline">
-                Profile
-              </p>
+              <p className="hidden md:inline-block hover:underline">Profile</p>
             </Link>
             <Link href="/dashboard">
               <p className="hidden md:inline-block hover:underline text-nowrap">
                 Log out
               </p>
             </Link>
-           
           </div>
           <DropdownMenu>
-              <DropdownMenuTrigger>
-                <Settings className="stroke-[1.5] md:hidden h-5 w-5" />
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="text-gray-900 bg-[#FCFCFE]">
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                <DropdownMenuSeparator />
+            <DropdownMenuTrigger>
+              <Settings className="stroke-[1.5] md:hidden h-5 w-5" />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="text-gray-900 bg-[#FCFCFE]">
+              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <Link href="/dashboard">
                 <DropdownMenuItem>
                   <ChartColumnBig className="mr-2 h-4 w-4" />
                   <span>Dashboard</span>
                 </DropdownMenuItem>
+              </Link>
+              <Link href="/profile">
                 <DropdownMenuItem>
                   <User className="mr-2 h-4 w-4" />
                   <span>Profile</span>
                 </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <LogOut className="mr-2 h-4 w-4" />
-                  <span>Log out</span>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+              </Link>
+              <DropdownMenuItem>
+                <LogOut className="mr-2 h-4 w-4" />
+                <span>Log out</span>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
           <div>
             <Button className="rounded-full hidden md:flex">
               Sign in to write{" "}

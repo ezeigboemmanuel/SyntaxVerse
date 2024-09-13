@@ -73,12 +73,16 @@ const Navbar = () => {
             </DropdownMenuContent>
           </DropdownMenu>
           <div>
-            <Button className="rounded-full hidden md:flex">
-              Sign in to write{" "}
-              <SquarePen className="ml-2 stroke-[1.5] w-5 h-5" />
-            </Button>
+            <Link href="/write">
+              <Button className="rounded-full hidden md:flex">
+                Sign in to write{" "}
+                <SquarePen className="ml-2 stroke-[1.5] w-5 h-5" />
+              </Button>
+            </Link>
 
-            <SquarePen className="ml-1 stroke-[1.5] md:hidden h-5 w-5" />
+            <Link href="/write">
+              <SquarePen className="ml-1 stroke-[1.5] md:hidden h-5 w-5" />
+            </Link>
           </div>
         </div>
       </section>

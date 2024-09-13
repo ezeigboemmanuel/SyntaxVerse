@@ -26,7 +26,7 @@ const Searchbar = () => {
             <input
               type="search"
               id="default-search"
-              className="block w-full max-w-[500px] px-3 py-2 ps-10 text-sm text-gray-900 border-gray-300 border-b bg-transparent"
+              className="block w-full max-w-[500px] px-3 py-2 ps-10 text-sm text-gray-900 border-gray-300 border-b bg-transparent outline-none active:outline-none"
               placeholder="Search Ztheta"
             />
           </div>

@@ -3,7 +3,7 @@ import React from "react";
 const StatsCard = () => {
   return (
     <div>
-      <h1 className="uppercase text-2xl md:text-4xl font-bold">Your Stats</h1>
+      <h1 className="text-2xl md:text-4xl font-bold">Your Stats</h1>
 
       <div className="mt-7">
         <div className="grid grid-cols-1 md:grid-cols-3 bg-[#FCFCFE] rounded-lg shadow-sm p-6">

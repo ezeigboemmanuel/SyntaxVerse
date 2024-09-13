@@ -38,10 +38,10 @@ const Navbar = () => {
                 Dashboard
               </p>
             </Link>
-            <Link href="/dashboard">
+            <Link href="/profile">
               <p className="hidden md:inline-block hover:underline">Profile</p>
             </Link>
-            <Link href="/dashboard">
+            <Link href="/">
               <p className="hidden md:inline-block hover:underline text-nowrap">
                 Log out
               </p>

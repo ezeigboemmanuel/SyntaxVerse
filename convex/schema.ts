@@ -11,6 +11,8 @@ export default defineSchema({
     facebookLink: v.optional(v.string()),
     instaLink: v.optional(v.string()),
     whatsappLink: v.optional(v.string()),
+    storageId: v.optional(v.id("_storage")),
+    format: v.optional(v.string()),
   })
     .index("by_token", ["tokenIdentifier"])
     .index("by_name", ["name"]),

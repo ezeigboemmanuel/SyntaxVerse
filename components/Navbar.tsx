@@ -18,24 +18,34 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { SignInButton, SignOutButton, useUser } from "@clerk/nextjs";
-import { useMutation } from "convex/react";
+import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 const Navbar = () => {
   const { isSignedIn, user } = useUser();
   const store = useMutation(api.users.storeUser);
+  const currentUser = useQuery(api.users.getCurrentUser);
+  const router = useRouter();
   useEffect(() => {
     const storeUser = async () => {
+      if (currentUser === undefined) {
+        return;
+      }
+
       if (isSignedIn && user) {
-        // Call the storeUser mutation once the user is signed in
-        await store();
-        console.log("Stored")
+        if (currentUser) {
+          return;
+        } else {
+          // Call the storeUser mutation once the user is signed in then go to profile setup page
+          await store().then(() => router.push("/profile/setup"));
+        }
       }
     };
 
     storeUser();
-  }, [isSignedIn, user]);
+  }, [isSignedIn, user, currentUser]);
 
   return (
     <div className="flex justify-between items-center max-w-[1400px] mx-auto px-3 md:px-6 py-4 md:py-6 border-b shadow-sm">
@@ -117,9 +127,7 @@ const Navbar = () => {
               </Link>
             ) : (
               <SignInButton>
-                <Button
-                  className="rounded-full hidden md:flex"
-                >
+                <Button className="rounded-full hidden md:flex">
                   Sign in to write{" "}
                   <SquarePen className="ml-2 stroke-[1.5] w-5 h-5" />
                 </Button>

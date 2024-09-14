@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import BackToTopButton from "@/components/BackToTopBtn";
 import { ConvexProvider } from "@/providers/convex-provider";
+import ToastProvider from "@/providers/toast-provider";
 
 const lato = Lato({
   subsets: ["latin"],
@@ -23,6 +24,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${lato.className} antialiased bg-[#F3F3F5]`}>
+        <ToastProvider />
         <ConvexProvider>
           <Navbar />
           <div className="px-3 md:px-6 max-w-[1400px] mx-auto">{children}</div>

@@ -1,6 +1,5 @@
 import Image from "next/image";
 import FeaturedImg from "@/assets/featuredimg.jpg";
-import { Button } from "./ui/button";
 import { MoveRight } from "lucide-react";
 
 const Featured = () => {

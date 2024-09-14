@@ -1,5 +1,6 @@
 import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
+import { Id } from "./_generated/dataModel";
 
 export const storeUser = mutation({
   args: {},
@@ -49,7 +50,18 @@ export const getCurrentUser = query({
       )
       .unique();
 
-    return user;
+      if(!user){
+        return;
+      }
+
+
+    // const userWithImage = await Promise.all(
+    //   // await ctx.storage.getUrl(user?.storageId);
+      
+    // )
+
+    return {...user, imageUrl: await ctx.storage.getUrl(user?.storageId as Id<"_storage">)};
+    // return user;
   },
 });
 

@@ -23,7 +23,8 @@ import { useState } from "react";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import toast from "react-hot-toast";
-import { redirect, useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { Id } from "@/convex/_generated/dataModel";
 
 const setupFormSchema = z.object({
   name: z
@@ -41,20 +42,38 @@ const setupFormSchema = z.object({
   whatsappLink: z.string().optional(),
 });
 
-// type SetupFormValues = z.infer<typeof setupFormSchema>;
+interface SetupFormProps {
+  currentUser: {
+    _id: Id<"users">;
+    name: string | undefined;
+    imageUrl: string | null;
+    bio?: string | undefined;
+    xLink?: string | undefined;
+    facebookLink?: string | undefined;
+    instaLink?: string | undefined;
+    whatsappLink?: string | undefined;
+    _creationTime: number;
+    tokenIdentifier: string;
+    format?: string | undefined;
+    storageId?: Id<"_storage">;
+  } | null | undefined;
+}
 
-export default function SetupForm() {
+export default function SetupForm({ currentUser }: SetupFormProps) {
   const { user } = useUser();
   const generateUploadUrl = useMutation(api.users.generateUploadUrl);
-  const currentUser = useQuery(api.users.getCurrentUser);
+  // const currentUser = useQuery(api.users.getCurrentUser);
   const updateUser = useMutation(api.users.updateUser);
   const router = useRouter();
+  const pathname = usePathname();
 
   if (!user) {
     return <>Loading...</>;
   }
 
-  const [imageUrl, setImageUrl] = useState<string>(user.imageUrl);
+  const [imageUrl, setImageUrl] = useState<string | undefined | null>(
+    currentUser?.imageUrl
+  );
   const [selectedImage, setSelectedImage] = useState<File>();
   const [loading, setLoading] = useState(false);
 
@@ -69,12 +88,12 @@ export default function SetupForm() {
   const form = useForm<z.infer<typeof setupFormSchema>>({
     resolver: zodResolver(setupFormSchema),
     defaultValues: {
-      name: user.fullName || "",
-      bio: "",
-      xLink: "",
-      facebookLink: "",
-      instaLink: "",
-      whatsappLink: "",
+      name: currentUser?.name || (user.fullName as string),
+      bio: currentUser?.bio || "",
+      xLink: currentUser?.xLink || "",
+      facebookLink: currentUser?.facebookLink || "",
+      instaLink: currentUser?.instaLink || "",
+      whatsappLink: currentUser?.whatsappLink || "",
     },
   });
 
@@ -115,7 +134,7 @@ export default function SetupForm() {
             xLink: data.xLink,
           })
             .then(() => {
-              toast.success(`Welcome, ${data.name}.`);
+              toast.success(`Profile updated.`);
               router.push(`/`);
             })
             .catch((error) => {
@@ -131,11 +150,11 @@ export default function SetupForm() {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         <div className="flex flex-col md:flex-row justify-center md:justify-normal space-y-4 md:space-y-0 md:space-x-4 items-center">
           <Image
-            src={imageUrl}
+            src={imageUrl || user.imageUrl}
             alt="img"
             width={100}
             height={100}
-            className="object-cover rounded-2xl"
+            className="object-cover rounded-2xl max-h-28 max-w-28 min-h-28 min-w-28"
           />
           <div className="w-full">
             <input
@@ -266,7 +285,7 @@ export default function SetupForm() {
           )}
         />
         <Button type="submit" disabled={loading}>
-          Continue
+          {pathname == "/profile/setup" ? "Continue" : "Save changes"}
         </Button>
       </form>
     </Form>

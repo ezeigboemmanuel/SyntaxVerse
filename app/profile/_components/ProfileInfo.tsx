@@ -6,6 +6,7 @@ import Instaicon from "@/assets/instaicon.svg";
 import Whatsicon from "@/assets/whatsicon.svg";
 import { Separator } from "@/components/ui/separator";
 import { Pencil } from "lucide-react";
+import Link from "next/link";
 
 const ProfileInfo = () => {
   return (
@@ -25,9 +26,9 @@ const ProfileInfo = () => {
             </p>
             <p className="text-gray-500 text-sm md:text-base">Author</p>
           </div>
-          <div>
+          <Link href="/profile/edit">
             <Pencil className="w-5 h-5 stroke-[#6C40FE] cursor-pointer" />
-          </div>
+          </Link>
         </div>
         <p className="text-gray-700 text-sm md:text-base mt-3">
           I am a skilled UI Developer with experience in creating responsive,

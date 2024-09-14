@@ -18,9 +18,25 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { SignInButton, SignOutButton, useUser } from "@clerk/nextjs";
+import { useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { useEffect } from "react";
 
 const Navbar = () => {
-  const { user } = useUser();
+  const { isSignedIn, user } = useUser();
+  const store = useMutation(api.users.storeUser);
+  useEffect(() => {
+    const storeUser = async () => {
+      if (isSignedIn && user) {
+        // Call the storeUser mutation once the user is signed in
+        await store();
+        console.log("Stored")
+      }
+    };
+
+    storeUser();
+  }, [isSignedIn, user]);
+
   return (
     <div className="flex justify-between items-center max-w-[1400px] mx-auto px-3 md:px-6 py-4 md:py-6 border-b shadow-sm">
       <div className="flex items-center space-x-3 w-full">
@@ -101,7 +117,9 @@ const Navbar = () => {
               </Link>
             ) : (
               <SignInButton>
-                <Button className="rounded-full hidden md:flex">
+                <Button
+                  className="rounded-full hidden md:flex"
+                >
                   Sign in to write{" "}
                   <SquarePen className="ml-2 stroke-[1.5] w-5 h-5" />
                 </Button>
@@ -115,8 +133,8 @@ const Navbar = () => {
             ) : (
               <SignInButton>
                 <div className="rounded-full flex items-center text-xs py-1.5 px-4 bg-black text-nowrap text-white md:hidden">
-                Sign in to write{" "}
-                <SquarePen className="ml-2 stroke-[1.5] w-4 h-4" />
+                  Sign in to write{" "}
+                  <SquarePen className="ml-2 stroke-[1.5] w-4 h-4" />
                 </div>
               </SignInButton>
             )}

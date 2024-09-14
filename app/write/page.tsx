@@ -3,7 +3,7 @@ import React from "react";
 
 const WritePage = () => {
   return (
-    <div className="bg-[#FCFCFE] p-3 pt-8">
+    <div className="bg-[#FCFCFE] p-5 md:p-10 lg:p-16 pt-8 -mx-3 md:-mx-6">
       <div>
         <input
           className="bg-transparent border-none text-2xl md:text-4xl font-bold outline-none active:outline-none"

@@ -23,7 +23,7 @@ const Navbar = () => {
     <div className="flex justify-between items-center max-w-[1400px] mx-auto px-3 md:px-6 py-4 md:py-6 border-b shadow-sm">
       <div className="flex items-center space-x-3 w-full">
         <Link href="/">
-          <label className="font-semibold cursor-pointer">Ztheta</label>
+          <label className="font-semibold cursor-pointer">SyntaxVerse</label>
         </Link>
         <div className="w-full">
           <Searchbar />

@@ -4,10 +4,10 @@ import React from "react";
 const Footer = () => {
   return (
     <div className="bg-[#262626] max-w-[1400px] mx-auto rounded-t-2xl md:rounded-t-3xl text-gray-300 p-5 pt-10 md:pt-20 md:px-16">
-      <div className="flex flex-col md:flex-row pb-8 md:pb-16 md:space-x-28 lg:space-x-52 md:justify-between">
+      <div className="flex flex-col md:flex-row pb-8 md:pb-16 md:space-x-28 lg:space-x-52 md:justify-between lg:px-10">
         <div className="mb-8 basis-1/2">
           <p className="font-bold text-xl text-white font-mono mb-2">Ztheta</p>
-          <p>
+          <p className="md:text-lg">
             Ztheta is a collaborative platform where users can create and share
             tech blogs, offering insights on the latest trends, tools, and
             innovations in the tech industry.
@@ -16,13 +16,13 @@ const Footer = () => {
         <div>
           <div>
             <p className="mb-3">OUR NEWSLETTER</p>
-            <h2 className="text-gray-100 text-2xl md:text-3xl">
+            <h2 className="text-gray-100 text-2xl md:text-3xl lg:text-4xl">
               JOIN 2M+ Techies For Weekly Updates and Insights
             </h2>
           </div>
 
-          <div className="mt-4">
-            <form className="max-w-lg mx-auto">
+          <div className="mt-4 md:mt-6">
+            <form className="max-w-xl mx-auto">
               <div className="relative">
                 <input
                   type="search"
@@ -52,7 +52,7 @@ const Footer = () => {
               href="/"
               className="font-semibold font-serif text-xl md:text-2xl"
             >
-              Ztheta
+              SyntaxVerse
             </Link>
             <span className="text-xs">
               {" "}

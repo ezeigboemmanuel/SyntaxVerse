@@ -66,18 +66,18 @@ const ProfileInfo = ({
         </div>
         <p className="text-gray-700 text-sm md:text-base mt-3">{bio}</p>
         <div className="flex space-x-2 md:space-x-4 mt-4">
-          <p>
+          {xLink && <Link href={xLink as string} target="_blank">
             <Image src={Xicon} alt="X" />
-          </p>
-          <p>
+          </Link>}
+          {facebookLink && <Link href={facebookLink as string} target="_blank">
             <Image src={Facebookicon} alt="Facebook" />
-          </p>
-          <p>
+          </Link>}
+          {instaLink && <Link href={instaLink as string} target="_blank">
             <Image src={Instaicon} alt="Instagram" />
-          </p>
-          <p>
+          </Link>}
+          {whatsappLink && <Link href={whatsappLink as string} target="_blank">
             <Image src={Whatsicon} alt="whatsapp" />
-          </p>
+          </Link>}
         </div>
       </div>
       <div className="py-10">

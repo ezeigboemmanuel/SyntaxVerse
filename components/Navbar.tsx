@@ -25,26 +25,25 @@ import { useRouter } from "next/navigation";
 
 const Navbar = () => {
   const { isSignedIn, user } = useUser();
-  const store = useMutation(api.users.storeUser);
   const currentUser = useQuery(api.users.getCurrentUser);
   const router = useRouter();
   useEffect(() => {
-    const storeUser = async () => {
+    const userSetup = async () => {
       if (currentUser === undefined) {
         return;
       }
-
       if (isSignedIn && user) {
+        // Check if signed in
         if (currentUser) {
           return;
         } else {
-          // Call the storeUser mutation once the user is signed in then go to profile setup page
-          await store().then(() => router.push("/profile/setup"));
+          // Go to profile setup
+          router.push("/profile/setup");
         }
       }
     };
 
-    storeUser();
+    userSetup();
   }, [isSignedIn, user, currentUser]);
 
   return (
@@ -66,14 +65,14 @@ const Navbar = () => {
 
       <section className="flex justify-between">
         <div className="flex items-center space-x-2 md:space-x-4">
-          {user ? (
+          {currentUser ? (
             <div className="hidden md:flex space-x-4 w-full text-gray-800">
               <Link href="/dashboard">
                 <p className="hidden md:inline-block hover:underline ml-3">
                   Dashboard
                 </p>
               </Link>
-              <Link href="/profile">
+              <Link href={`/profile/${currentUser?._id}`}>
                 <p className="hidden md:inline-block hover:underline">
                   Profile
                 </p>

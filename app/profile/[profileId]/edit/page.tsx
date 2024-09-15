@@ -2,11 +2,22 @@
 import SetupForm  from "../_components/SetupForm";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
+import { useParams, useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 const ProfileEditPage = () => {
+  const params = useParams();
+  const router = useRouter()
   const currentUser = useQuery(api.users.getCurrentUser);
+
   if(!currentUser){
     return <p>Loading...</p>
+  }
+
+  if(currentUser?._id !== params.profileId){
+    toast.error("Unauthorised")
+    router.push("/")
+    return;
   }
   return (
     <div className="py-6 md:py-10 max-w-xl mx-auto">

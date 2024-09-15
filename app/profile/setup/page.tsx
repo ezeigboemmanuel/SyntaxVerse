@@ -1,18 +1,23 @@
 "use client";
 import { useQuery } from "convex/react";
-import SetupForm from "../_components/SetupForm";
+import SetupForm from "../[profileId]/_components/SetupForm";
 import { api } from "@/convex/_generated/api";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useUser } from "@clerk/nextjs";
 
 const ProfileSetupPage = () => {
   const currentUser = useQuery(api.users.getCurrentUser);
+  const { isSignedIn, user } = useUser();
   const router = useRouter()
   useEffect(() => {
-    if (currentUser) {
-      router.push("/profile")
+    if(!isSignedIn || !user){
+      router.push("/")
     }
-  }, [currentUser]);
+    if (currentUser) {
+      router.push(`/profile/${currentUser?._id}`)
+    }
+  }, [currentUser, isSignedIn, user]);
   return (
     <div className="py-6 md:py-10 max-w-xl mx-auto">
       <h1 className="text-2xl md:text-4xl">Let's set up your profile</h1>

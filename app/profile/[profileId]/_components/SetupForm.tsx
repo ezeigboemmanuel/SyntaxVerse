@@ -43,25 +43,29 @@ const setupFormSchema = z.object({
 });
 
 interface SetupFormProps {
-  currentUser: {
-    _id: Id<"users">;
-    name: string | undefined;
-    imageUrl: string | null;
-    bio?: string | undefined;
-    xLink?: string | undefined;
-    facebookLink?: string | undefined;
-    instaLink?: string | undefined;
-    whatsappLink?: string | undefined;
-    _creationTime: number;
-    tokenIdentifier: string;
-    format?: string | undefined;
-    storageId?: Id<"_storage">;
-  } | null | undefined;
+  currentUser:
+    | {
+        _id: Id<"users">;
+        name: string | undefined;
+        imageUrl: string | null | undefined;
+        bio?: string | undefined;
+        xLink?: string | undefined;
+        facebookLink?: string | undefined;
+        instaLink?: string | undefined;
+        whatsappLink?: string | undefined;
+        _creationTime: number;
+        tokenIdentifier: string;
+        format?: string | undefined;
+        storageId?: Id<"_storage">;
+      }
+    | null
+    | undefined;
 }
 
 export default function SetupForm({ currentUser }: SetupFormProps) {
   const { user } = useUser();
   const generateUploadUrl = useMutation(api.users.generateUploadUrl);
+  const storeUser = useMutation(api.users.storeUser);
   // const currentUser = useQuery(api.users.getCurrentUser);
   const updateUser = useMutation(api.users.updateUser);
   const router = useRouter();
@@ -72,7 +76,7 @@ export default function SetupForm({ currentUser }: SetupFormProps) {
   }
 
   const [imageUrl, setImageUrl] = useState<string | undefined | null>(
-    currentUser?.imageUrl
+    currentUser?.imageUrl || user.imageUrl
   );
   const [selectedImage, setSelectedImage] = useState<File>();
   const [loading, setLoading] = useState(false);
@@ -100,48 +104,133 @@ export default function SetupForm({ currentUser }: SetupFormProps) {
   async function onSubmit(data: z.infer<typeof setupFormSchema>) {
     setLoading(true);
     const postUrl = await generateUploadUrl();
-    if (!imageUrl || !selectedImage) {
+
+    if (!imageUrl) {
       toast.error("Please input an Image");
       return;
     }
 
-    const result = await fetch(postUrl, {
-      method: "POST",
-      headers: { "Content-Type": selectedImage.type },
-      body: selectedImage,
-    });
-
-    const json = await result.json();
-
-    if (!result.ok) {
-      toast.error("Upload failed! Please try again.");
-      throw new Error(`Upload failed: ${JSON.stringify(json)}`);
+    if (!selectedImage && pathname == "/profile/setup") {
+      await storeUser({
+        name: data.name || (user?.fullName as string),
+        bio: data.bio,
+        format: "image",
+        imageUrl: imageUrl,
+        facebookLink: data.facebookLink,
+        instaLink: data.instaLink,
+        whatsappLink: data.whatsappLink,
+        xLink: data.xLink,
+      })
+        .then(() => {
+          setLoading(false);
+          toast.success(`Profile created successfully.`);
+          router.push(`/profile/${currentUser?._id}`);
+        })
+        .catch((error) => {
+          console.log(error);
+          toast.success("Profile creation error.");
+        });
     }
-    const { storageId } = json;
 
-    {
-      currentUser
-        ? await updateUser({
-            id: currentUser._id,
-            name: data.name,
-            bio: data.bio,
-            format: "image",
-            imageUrl,
-            storageId,
-            facebookLink: data.facebookLink,
-            instaLink: data.instaLink,
-            whatsappLink: data.whatsappLink,
-            xLink: data.xLink,
+    if (!selectedImage && pathname == `/profile/${currentUser?._id}/edit`) {
+      {
+        currentUser
+          ? await updateUser({
+              id: currentUser._id,
+              name: data.name,
+              bio: data.bio,
+              format: "image",
+              imageUrl: currentUser.imageUrl as string,
+              storageId: currentUser.storageId,
+              facebookLink: data.facebookLink,
+              instaLink: data.instaLink,
+              whatsappLink: data.whatsappLink,
+              xLink: data.xLink,
+            })
+              .then(() => {
+                setLoading(false);
+                toast.success(`Profile updated.`);
+                router.push(`/profile/${currentUser?._id}`);
+                router.refresh();
+              })
+              .catch((error) => {
+                console.log(error);
+                toast.success("Update profile error");
+              })
+          : toast.error("An error occurred.");
+      }
+    }
+
+    if (selectedImage) {
+      const result = await fetch(postUrl, {
+        method: "POST",
+        headers: { "Content-Type": selectedImage.type },
+        body: selectedImage,
+      });
+
+      const json = await result.json();
+
+      if (!result.ok) {
+        toast.error("Upload failed! Please try again.");
+        throw new Error(`Upload failed: ${JSON.stringify(json)}`);
+      }
+      const { storageId } = json;
+
+      // For Storing
+
+      if (pathname == "/profile/setup") {
+        await storeUser({
+          name: data.name || (user?.fullName as string),
+          bio: data.bio || "",
+          format: "image",
+          imageUrl: imageUrl,
+          storageId: storageId || undefined,
+          facebookLink: data.facebookLink || "",
+          instaLink: data.instaLink || "",
+          whatsappLink: data.whatsappLink || "",
+          xLink: data.xLink || "",
+        })
+          .then(() => {
+            setLoading(false);
+            toast.success(`Profile created successfully.`);
+            router.push(`/profile/${currentUser?._id}`);
           })
-            .then(() => {
-              toast.success(`Profile updated.`);
-              router.push(`/`);
-            })
-            .catch((error) => {
-              console.log(error);
-              toast.success("Update fair error");
-            })
-        : toast.error("An error occurred.");
+          .catch((error) => {
+            console.log(error);
+            toast.success("Profile creation error.");
+          });
+      }
+
+      // For Edit
+
+      if (pathname == `/profile/${currentUser?._id}/edit`) {
+        {
+          currentUser
+            ? await updateUser({
+                id: currentUser._id,
+                name: data.name,
+                bio: data.bio,
+                format: "image",
+                imageUrl: imageUrl || (currentUser.imageUrl as string),
+                storageId: storageId || currentUser.storageId,
+                facebookLink: data.facebookLink,
+                instaLink: data.instaLink,
+                whatsappLink: data.whatsappLink,
+                xLink: data.xLink,
+              })
+                .then(() => {
+                  setLoading(false);
+                  toast.success(`Profile updated.`);
+                  router.push(`/profile/${currentUser?._id}`);
+                  router.refresh();
+                })
+                .catch((error) => {
+                  console.log(error);
+                  toast.success("Update profile error");
+                })
+            : toast.error("An error occurred.");
+        }
+      }
     }
   }
 

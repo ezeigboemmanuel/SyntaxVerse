@@ -5,7 +5,7 @@ const Searchbar = () => {
     <div className="w-full mx-auto pl-1 md:pl-8">
       <form className="w-full">
         <div className="w-full flex justify-center items-center space-x-2">
-          <div className="relative w-full mr-4">
+          <div className="relative w-full mr-1 md:mr-4">
             <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
               <svg
                 className="w-4 h-4 text-gray-500 dark:text-gray-400"
@@ -27,7 +27,7 @@ const Searchbar = () => {
               type="search"
               id="default-search"
               className="block w-full max-w-[500px] px-3 py-2 ps-10 text-sm text-gray-900 border-gray-300 border-b bg-transparent outline-none active:outline-none"
-              placeholder="Search Ztheta"
+              placeholder="Search Syntaxverse"
             />
           </div>
         </div>

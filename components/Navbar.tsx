@@ -78,7 +78,7 @@ const Navbar = () => {
                 </p>
               </Link>
               <SignOutButton>
-                <p className="hidden md:inline-block hover:underline text-nowrap">
+                <p className="hidden md:inline-block hover:underline text-nowrap cursor-pointer">
                   Log out
                 </p>
               </SignOutButton>

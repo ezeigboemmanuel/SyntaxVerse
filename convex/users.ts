@@ -86,8 +86,6 @@ export const getCurrentUser = query({
 export const getUserById = query({
   args: { id: v.id("users") },
   handler: async (ctx, args) => {
-
-    // throw new Error("Unauthenticated call to query");
     const user = await ctx.db
       .query("users")
       .filter((q) => q.eq(q.field("_id"), args.id))

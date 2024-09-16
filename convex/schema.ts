@@ -16,4 +16,24 @@ export default defineSchema({
   })
     .index("by_token", ["tokenIdentifier"])
     .index("by_name", ["name"]),
+  blogs: defineTable({
+    userId: v.id("users"),
+    title: v.string(),
+    article: v.string(),
+    imageUrl: v.string(),
+    storageId: v.id("_storage"),
+    format: v.string(),
+    likes: v.optional(v.number()),
+    views: v.number(),
+    categories: v.array(v.string()),
+  })
+    .searchIndex("by_title", {
+      searchField: "title",
+    })
+    .index("by_categories", ["categories"]),
+  comments: defineTable({
+    blogId: v.id("blogs"),
+    userId: v.id("users"),
+    comment: v.string(),
+  }).index("by_blogId", ["blogId"]),
 });

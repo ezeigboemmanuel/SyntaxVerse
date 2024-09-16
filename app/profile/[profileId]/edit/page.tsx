@@ -1,5 +1,5 @@
 "use client"
-import SetupForm  from "../_components/SetupForm";
+import SetupForm  from "../../_components/SetupForm";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useParams, useRouter } from "next/navigation";

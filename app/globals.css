@@ -111,3 +111,19 @@ body {
   background: #555;
 }
 
+
+.bn-container[data-changing] .bn-editor * {
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 18px;
+}
+
+@media only screen and (max-width: 700px) {
+  .bn-container[data-changing] .bn-editor * {
+    font-family: "Lato", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 16px;
+  }  
+}

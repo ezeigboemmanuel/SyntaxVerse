@@ -1,6 +1,6 @@
 import React from "react";
-import ProfileInfo from "./_components/ProfileInfo";
-import AllBlogs from "./_components/AllBlogs";
+import ProfileInfo from "../_components/ProfileInfo";
+import AllBlogs from "../_components/AllBlogs";
 import { Id } from "@/convex/_generated/dataModel";
 import { api } from "@/convex/_generated/api";
 import { fetchQuery } from "convex/nextjs";

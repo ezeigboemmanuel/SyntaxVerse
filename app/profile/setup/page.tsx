@@ -1,6 +1,6 @@
 "use client";
 import { useQuery } from "convex/react";
-import SetupForm from "../[profileId]/_components/SetupForm";
+import SetupForm from "../_components/SetupForm";
 import { api } from "@/convex/_generated/api";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";

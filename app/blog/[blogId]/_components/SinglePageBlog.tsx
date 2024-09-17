@@ -25,7 +25,7 @@ const SinglePageBlog = () => {
       <BlogTop authorName={blog.author?.name} imageUrl={blog.author?.imageUrl} likes={blog.likes} tags={blog.categories} views={blog.views} />
 
       {/* Content */}
-      <Content />
+      <Content title={blog.title} article={blog.article} imageUrl={blog.imageUrl} likes={blog.likes} />
 
       {/* Comment */}
       <Comments />

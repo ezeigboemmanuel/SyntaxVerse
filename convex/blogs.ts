@@ -40,3 +40,7 @@ export const storeBlog = mutation({
     });
   },
 });
+
+export const generateUploadUrl = mutation(async (ctx) => {
+  return await ctx.storage.generateUploadUrl();
+});

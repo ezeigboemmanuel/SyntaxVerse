@@ -22,6 +22,10 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import toast from "react-hot-toast";
 import { Separator } from "./ui/separator";
+import { useMutation, useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { usePathname, useRouter } from "next/navigation";
+import { Input } from "./ui/input";
 
 const categoriesList = [
   {
@@ -47,6 +51,9 @@ const categoriesList = [
 ];
 
 const FormSchema = z.object({
+  title: z.string().min(5, {
+    message: "Title must be at least 5 characters.",
+  }),
   categories: z
     .array(z.string().min(1))
     .min(1)
@@ -54,8 +61,16 @@ const FormSchema = z.object({
 });
 
 const Write = () => {
+  const storeBlog = useMutation(api.blogs.storeBlog);
+  const currentUser = useQuery(api.users.getCurrentUser);
+  const generateUploadUrl = useMutation(api.blogs.generateUploadUrl);
+  const [selectedImage, setSelectedImage] = useState<File>();
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [content, setContent] = useState<string>("");
+  const [loading, setLoading] = useState(false);
+  const pathname = usePathname();
+  const router = useRouter();
+
   // Creates a new editor instance.
   const editor = useCreateBlockNote();
 
@@ -75,6 +90,7 @@ const Write = () => {
     setContent(newContent);
   };
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedImage(e.target.files?.[0]);
     const file = e.target.files?.[0];
     if (file) {
       setImageUrl(URL.createObjectURL(file));
@@ -84,22 +100,60 @@ const Write = () => {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
+      title: "",
       categories: [],
     },
   });
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    toast.success(
-      `You have selected following frameworks: ${data.categories.join(", ")}.`
-    );
+  async function onSubmit(data: z.infer<typeof FormSchema>) {
+    setLoading(true);
+    const postUrl = await generateUploadUrl();
+    if (!imageUrl || !selectedImage) {
+      toast.error("Please input an Image");
+      return;
+    }
+
+    const result = await fetch(postUrl, {
+      method: "POST",
+      headers: { "Content-Type": selectedImage.type },
+      body: selectedImage,
+    });
+
+    const json = await result.json();
+
+    if (!result.ok) {
+      toast.error("Upload failed! Please try again.");
+      throw new Error(`Upload failed: ${JSON.stringify(json)}`);
+    }
+    const { storageId } = json;
+    if (pathname == "/write") {
+      await storeBlog({
+        title: data.title,
+        article: content,
+        categories: data.categories,
+        format: "image",
+        imageUrl: imageUrl,
+        storageId: storageId,
+        views: 1,
+      })
+        .then(() => {
+          setLoading(false);
+          toast.success(`Article published successfully`);
+          router.push(`/blog/replace-with-id`);
+        })
+        .catch((error) => {
+          console.log(error);
+          toast.success("Article submission error.");
+        });
+    }
   }
   return (
-    <div className="bg-[#FCFCFE] p-5 md:px-10 md:py-7 lg:px-16 pt-8 -mx-3 md:-mx-6">
+    <div className="bg-[#FCFCFE] p-5 md:px-10 md:py-7 lg:px-16 pt-8 md:-mx-6">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <div>
             <div className="mb-4">
-              <h2 className="text-lg md:text-xl font-bold mb-3">
+              <h2 className="text-gray-800 text-sm md:text-base font-semibold mb-3">
                 Add your cover image
               </h2>
               {imageUrl && (
@@ -113,12 +167,21 @@ const Write = () => {
                   />
                 </AspectRatio>
               )}
+
               <input
                 type="file"
+                id="fileInput"
                 accept="image/*"
                 onChange={handleImageChange}
-                className="mt-4"
+                className="hidden"
               />
+
+              <label
+                htmlFor="fileInput"
+                className="cursor-pointer rounded-md md:text-base py-2 px-5 mt-4 bg-[#6C40FE] hover:bg-[#6134f3] text-sm text-white"
+              >
+                Upload Image
+              </label>
             </div>
 
             <div className="mb-8 max-w-3xl">
@@ -127,7 +190,7 @@ const Write = () => {
                 name="categories"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Choose categories</FormLabel>
+                    <FormLabel className="text-gray-800 font-semibold text-sm md:text-base">Choose categories</FormLabel>
                     <FormControl>
                       <MultiSelect
                         options={categoriesList}
@@ -147,16 +210,29 @@ const Write = () => {
                 )}
               />
             </div>
-
-            <input
-              className="bg-transparent mb-8 border-none text-2xl md:text-4xl font-bold outline-none active:outline-none"
-              placeholder="Enter your title"
+            <FormField
+              control={form.control}
+              name="title"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-gray-800 font-semibold text-sm md:text-base">
+                    Title
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Enter your title"
+                      className="bg-transparent text-base"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-            <Separator />
-            <div className="mb-6 mt-2">
-              <label className="block text-gray-800 font-semibold text-base md:text-xl mt-4">
+            <div className="mb-6 mt-5">
+              <h2 className="text-gray-800 text-sm md:text-base font-semibold">
                 Write your article
-              </label>
+              </h2>
               <BlockNoteView
                 editor={editor}
                 onChange={onContentChange}
@@ -167,7 +243,11 @@ const Write = () => {
             </div>
 
             <div className="flex w-full mt-8">
-              <Button className="rounded-full md:text-base py-1.5 px-5 bg-[#6C40FE] hover:bg-[#6134f3]">
+              <Button
+                type="submit"
+                disabled={loading}
+                className="rounded-full md:text-base py-1.5 px-5 bg-[#6C40FE] hover:bg-[#6134f3]"
+              >
                 Post article
               </Button>
             </div>

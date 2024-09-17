@@ -86,10 +86,7 @@ export const getCurrentUser = query({
 export const getUserById = query({
   args: { id: v.id("users") },
   handler: async (ctx, args) => {
-    const user = await ctx.db
-      .query("users")
-      .filter((q) => q.eq(q.field("_id"), args.id))
-      .unique();
+    const user = await ctx.db.get(args.id);
 
     if (!user) {
       return;

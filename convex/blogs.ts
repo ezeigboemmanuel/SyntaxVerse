@@ -1,5 +1,6 @@
 import { v } from "convex/values";
-import { mutation } from "./_generated/server";
+import { mutation, query } from "./_generated/server";
+import { Id } from "./_generated/dataModel";
 
 export const storeBlog = mutation({
   args: {
@@ -43,4 +44,33 @@ export const storeBlog = mutation({
 
 export const generateUploadUrl = mutation(async (ctx) => {
   return await ctx.storage.generateUploadUrl();
+});
+
+export const getSingleBlog = query({
+  args: { id: v.id("blogs") },
+  handler: async (ctx, args) => {
+    const blog = await ctx.db.get(args.id);
+    if (blog === null) {
+      throw new Error("Article not found");
+    }
+
+    const newImageUrl = blog.storageId
+      ? await ctx.storage.getUrl(blog.storageId as Id<"_storage">)
+      : undefined;
+
+    const author = await ctx.db.get(blog.userId);
+
+    const authorImageUrl = author?.storageId
+      ? await ctx.storage.getUrl(author.storageId as Id<"_storage">)
+      : undefined;
+
+    return {
+      ...blog,
+      imageUrl: newImageUrl ? newImageUrl : blog.imageUrl,
+      author: {
+        ...author,
+        imageUrl: authorImageUrl ? authorImageUrl : author?.imageUrl
+      },
+    };
+  },
 });

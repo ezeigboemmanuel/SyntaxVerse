@@ -16,16 +16,31 @@ const SinglePageBlog = () => {
   const blog = useQuery(api.blogs.getSingleBlog, {
     id: params.blogId as Id<"blogs">,
   });
+  const currentUser = useQuery(api.users.getCurrentUser);
 
-  if(blog == undefined){
-    return <p>Loading...</p>
+  if (blog == undefined) {
+    return <p>Loading...</p>;
   }
   return (
     <div className="max-w-5xl mx-auto">
-      <BlogTop authorName={blog.author?.name} imageUrl={blog.author?.imageUrl} likes={blog.likes} tags={blog.categories} views={blog.views} />
+      <BlogTop
+        authorName={blog.author?.name}
+        imageUrl={blog.author?.imageUrl}
+        likes={blog.likes}
+        tags={blog.categories}
+        views={blog.views}
+        userId={currentUser?._id}
+        authorId={blog.author._id}
+        blogId={blog._id}
+      />
 
       {/* Content */}
-      <Content title={blog.title} article={blog.article} imageUrl={blog.imageUrl} likes={blog.likes} />
+      <Content
+        title={blog.title}
+        article={blog.article}
+        imageUrl={blog.imageUrl}
+        likes={blog.likes}
+      />
 
       {/* Comment */}
       <Comments />

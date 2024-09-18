@@ -1,5 +1,13 @@
 import Image from "next/image";
-import { Eye, Heart, Share } from "lucide-react";
+import { Ellipsis, Eye, Heart, Share } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Id } from "@/convex/_generated/dataModel";
+import { useRouter } from "next/navigation";
 
 interface BlogTopProps {
   tags: string[];
@@ -7,8 +15,21 @@ interface BlogTopProps {
   authorName: string | undefined;
   likes: number | undefined;
   views: number;
+  userId: Id<"users"> | undefined;
+  authorId: Id<"users"> | undefined;
+  blogId: Id<"blogs">;
 }
-const BlogTop = ({ tags, imageUrl, authorName, likes, views}: BlogTopProps) => {
+const BlogTop = ({
+  tags,
+  imageUrl,
+  authorName,
+  likes,
+  views,
+  userId,
+  authorId,
+  blogId
+}: BlogTopProps) => {
+  const router = useRouter();
   return (
     <div className="flex flex-col space-y-3">
       <div className="flex justify-between space-x-2">
@@ -34,15 +55,34 @@ const BlogTop = ({ tags, imageUrl, authorName, likes, views}: BlogTopProps) => {
         </div>
 
         <div className="flex space-x-3 md:space-x-5 items-center">
-          <Share className="h-5 w-5" />
+          <Share className="h-5 w-5 stroke-[#6C40FE]" />
           <div className="flex space-x-1 items-center">
-            <Heart className="h-5 w-5" />
-            <p>{likes == undefined ? "0" : likes}</p>
+            <Heart className="h-5 w-5 stroke-[#6C40FE]" />
+            <p className="text-[#6C40FE]">{likes == undefined ? "0" : likes}</p>
           </div>
           <div className="flex space-x-1 items-center">
-            <Eye className="h-5 w-5" />
-            <p>{views}</p>
+            <Eye className="h-5 w-5 stroke-[#6C40FE]" />
+            <p className="text-[#6C40FE]">{views}</p>
           </div>
+
+          {userId == authorId && (
+            <DropdownMenu>
+              <DropdownMenuTrigger>
+                <Ellipsis />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuItem onClick={() => {router.push(`/blog/${blogId}/edit`)}} className="cursor-pointer">
+                  Edit
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => {}}
+                  className="text-red-500 hover:!text-red-500  cursor-pointer"
+                >
+                  Delete
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
         </div>
       </div>
       <div>

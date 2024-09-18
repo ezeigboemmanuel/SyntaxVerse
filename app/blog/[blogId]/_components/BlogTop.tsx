@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Id } from "@/convex/_generated/dataModel";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface BlogTopProps {
   tags: string[];
@@ -41,15 +42,15 @@ const BlogTop = ({
                 : "https://cdn.pixabay.com/photo/2018/11/13/21/43/avatar-3814049_1280.png"
             }
             alt="profile_img"
-            width={100}
-            height={100}
-            className="h-12 w-12 rounded-full"
+            width={500}
+            height={500}
+            className="h-12 w-12 object-cover object-center rounded-full"
           />
           <div>
             {/* should go to user page */}
-            <p className="font-semibold hover:underline md:text-lg">
+            <Link href={`/profile/${authorId}`} className="font-semibold hover:underline md:text-lg">
               {authorName}
-            </p>
+            </Link>
             <p className="text-gray-500 text-sm md:text-base">Author</p>
           </div>
         </div>

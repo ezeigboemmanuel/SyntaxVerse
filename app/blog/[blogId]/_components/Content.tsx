@@ -25,8 +25,7 @@ const Content = ({ title, imageUrl, article, likes }: ContentProps) => {
       <div className="mt-3">
         <AspectRatio ratio={16 / 7.5}>
           <Image
-            width={100}
-            height={100}
+            fill
             src={imageUrl}
             alt="blog_img"
             className="object-cover object-center w-full h-full"

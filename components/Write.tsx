@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AspectRatio } from "./ui/aspect-ratio";
 import { BlockNoteView, Theme } from "@blocknote/mantine";
 import "@blocknote/mantine/style.css";
@@ -26,6 +26,7 @@ import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { usePathname, useRouter } from "next/navigation";
 import { Input } from "./ui/input";
+import { Id } from "@/convex/_generated/dataModel";
 
 const categoriesList = [
   {
@@ -60,19 +61,45 @@ const FormSchema = z.object({
     .nonempty("Please select at least one category."),
 });
 
-const Write = () => {
+interface WriteProps {
+  fmrImageUrl?: string;
+  categories?: string[];
+  title?: string;
+  article?: string;
+  blogId?: Id<"blogs">;
+  fmrStorageId?: Id<"_storage">;
+}
+
+const Write = ({
+  fmrImageUrl,
+  categories,
+  title,
+  article,
+  blogId,
+  fmrStorageId,
+}: WriteProps) => {
   const storeBlog = useMutation(api.blogs.storeBlog);
+  const updateBlog = useMutation(api.blogs.updateBlog);
   const currentUser = useQuery(api.users.getCurrentUser);
   const generateUploadUrl = useMutation(api.blogs.generateUploadUrl);
   const [selectedImage, setSelectedImage] = useState<File>();
-  const [imageUrl, setImageUrl] = useState<string | null>(null);
-  const [content, setContent] = useState<string>("");
+  const [imageUrl, setImageUrl] = useState<string | null>(fmrImageUrl || null);
+  const [content, setContent] = useState<string>(article || "");
   const [loading, setLoading] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
 
   // Creates a new editor instance.
   const editor = useCreateBlockNote();
+
+  // For initialization; on mount, convert the initial Markdown to blocks and replace the default editor's content
+  useEffect(() => {
+    async function loadInitialHTML() {
+      const blocks = await editor.tryParseMarkdownToBlocks(content);
+      editor.replaceBlocks(editor.document, blocks);
+    }
+    loadInitialHTML();
+  }, [editor]);
 
   // Base theme
   const myCustomTheme = {
@@ -100,16 +127,40 @@ const Write = () => {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      title: "",
-      categories: [],
+      title: `${pathname == `/blog/${blogId}/edit` ? title : ""}`,
+      categories: pathname == `/blog/${blogId}/edit` ? categories : [],
     },
   });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     setLoading(true);
+
+    if (pathname == `/blog/${blogId}/edit` && !selectedImage) {
+      await updateBlog({
+        id: blogId as Id<"blogs">,
+        title: data.title,
+        article: content,
+        categories: data.categories,
+        format: "image",
+        imageUrl: imageUrl as string,
+        storageId: fmrStorageId as Id<"_storage">,
+        views: 1,
+      })
+        .then(() => {
+          toast.success("Article updated successfully!");
+          router.push(`/blog/${blogId}`);
+          router.refresh()
+        })
+        .catch((error) => {
+          console.log(error);
+          toast.success("Update article error");
+        });
+    }
+
     const postUrl = await generateUploadUrl();
+    
     if (!imageUrl || !selectedImage) {
-      toast.error("Please input an Image");
+      {pathname !== `/blog/${blogId}/edit` ? toast.error("Please input an Image") : ""};
       return;
     }
 
@@ -139,11 +190,34 @@ const Write = () => {
         .then(() => {
           setLoading(false);
           toast.success(`Article published successfully`);
-          router.push(`/blog/replace-with-id`);
+          router.push(`/blog/${blogId}`);
+          router.refresh()
         })
         .catch((error) => {
           console.log(error);
           toast.success("Article submission error.");
+        });
+    }
+
+    if (pathname == `/blog/${blogId}/edit` && selectedImage) {
+      await updateBlog({
+        id: blogId as Id<"blogs">,
+        title: data.title,
+        article: content,
+        categories: data.categories,
+        format: "image",
+        imageUrl: imageUrl,
+        storageId: storageId,
+        views: 1,
+      })
+        .then(() => {
+          toast.success("Article updated successfully!");
+          router.push(`/blog/${blogId}`);
+          router.refresh()
+        })
+        .catch((error) => {
+          console.log(error);
+          toast.success("Update article error");
         });
     }
   }
@@ -161,8 +235,7 @@ const Write = () => {
                   <Image
                     src={imageUrl}
                     alt="img"
-                    width={100}
-                    height={100}
+                    fill
                     className="object-cover h-full w-full max-w-5xl mx-auto"
                   />
                 </AspectRatio>
@@ -180,7 +253,7 @@ const Write = () => {
                 htmlFor="fileInput"
                 className="cursor-pointer rounded-md md:text-base py-2 px-5 mt-4 bg-[#6C40FE] hover:bg-[#6134f3] text-sm text-white"
               >
-                Upload Image
+                {pathname !== `/blog/${blogId}/edit` ? "Update" : "Upload"} Image
               </label>
             </div>
 
@@ -190,7 +263,9 @@ const Write = () => {
                 name="categories"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-gray-800 font-semibold text-sm md:text-base">Choose categories</FormLabel>
+                    <FormLabel className="text-gray-800 font-semibold text-sm md:text-base">
+                      Choose categories
+                    </FormLabel>
                     <FormControl>
                       <MultiSelect
                         options={categoriesList}
@@ -248,7 +323,7 @@ const Write = () => {
                 disabled={loading}
                 className="rounded-full md:text-base py-1.5 px-5 bg-[#6C40FE] hover:bg-[#6134f3]"
               >
-                Post article
+                {pathname == `/blog/${blogId}/edit` ? "Update" : "Post"} article
               </Button>
             </div>
           </div>

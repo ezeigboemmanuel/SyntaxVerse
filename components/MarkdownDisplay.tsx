@@ -8,25 +8,25 @@ const MarkdownDisplay = ({ children }: { children: string | null | undefined }) 
       components={{
         h1: ({ node, ...props }) => (
           <h1
-            style={{ fontWeight: "bold", fontSize: "28px", margin: "16px 0" }}
+            style={{ fontWeight: "bold", fontSize: "30px", margin: "16px 0" }}
             {...props}
           />
         ),
         h2: ({ node, ...props }) => (
           <h2
-            style={{ fontWeight: "bold", fontSize: "24px", margin: "14px 0" }}
+            style={{ fontWeight: "bold", fontSize: "26px", margin: "14px 0" }}
             {...props}
           />
         ),
         h3: ({ node, ...props }) => (
           <h3
-            style={{ fontWeight: "bold", fontSize: "20px", margin: "12px 0" }}
+            style={{ fontWeight: "bold", fontSize: "22px", margin: "12px 0" }}
             {...props}
           />
         ),
         p: ({ node, ...props }) => (
           <p
-            style={{ fontSize: "16px", lineHeight: "1.6", margin: "10px 0" }}
+            style={{ fontSize: "17px", lineHeight: "1.6", margin: "10px 0" }}
             {...props}
           />
         ),
@@ -56,13 +56,13 @@ const MarkdownDisplay = ({ children }: { children: string | null | undefined }) 
         ),
         ul: ({ node, ...props }) => (
           <ul
-            style={{ listStyleType: "disc", marginLeft: "40px" }}
+            style={{ fontSize: "17px", listStyleType: "disc", marginLeft: "40px" }}
             {...props}
           />
         ),
         ol: ({ node, ...props }) => (
           <ol
-            style={{ listStyleType: "decimal", marginLeft: "40px" }}
+            style={{ fontSize: "17px", listStyleType: "decimal", marginLeft: "40px" }}
             {...props}
           />
         ),

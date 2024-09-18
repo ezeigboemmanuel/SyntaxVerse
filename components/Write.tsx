@@ -30,24 +30,24 @@ import { Id } from "@/convex/_generated/dataModel";
 
 const categoriesList = [
   {
-    value: "next.js",
-    label: "Next.js",
+    value: "Web Development",
+    label: "Web Development",
   },
   {
-    value: "sveltekit",
-    label: "SvelteKit",
+    value: "UI/UX",
+    label: "UI/UX",
   },
   {
-    value: "nuxt.js",
-    label: "Nuxt.js",
+    value: "Backend Development",
+    label: "Backend Development",
   },
   {
-    value: "remix",
-    label: "Remix",
+    value: "APIs",
+    label: "APIs",
   },
   {
-    value: "astro",
-    label: "Astro",
+    value: "Frontend Development",
+    label: "Frontend Development",
   },
 ];
 

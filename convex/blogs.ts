@@ -69,12 +69,11 @@ export const getSingleBlog = query({
       imageUrl: newImageUrl ? newImageUrl : blog.imageUrl,
       author: {
         ...author,
-        imageUrl: authorImageUrl ? authorImageUrl : author?.imageUrl
+        imageUrl: authorImageUrl ? authorImageUrl : author?.imageUrl,
       },
     };
   },
 });
-
 
 export const updateBlog = mutation({
   args: {
@@ -118,5 +117,29 @@ export const updateBlog = mutation({
     });
 
     return updatedBlog;
+  },
+});
+
+export const deleteBlog = mutation({
+  args: { id: v.id("blogs") },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+
+    if (!identity) {
+      throw new Error("Unauthorized");
+    }
+
+    const user = await ctx.db
+      .query("users")
+      .withIndex("by_token", (q) =>
+        q.eq("tokenIdentifier", identity.tokenIdentifier)
+      )
+      .unique();
+
+    if (user === null) {
+      return;
+    }
+
+    await ctx.db.delete(args.id);
   },
 });

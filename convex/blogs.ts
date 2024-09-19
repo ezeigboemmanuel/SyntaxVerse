@@ -143,3 +143,32 @@ export const deleteBlog = mutation({
     await ctx.db.delete(args.id);
   },
 });
+
+export const getAllBlogs = query({
+  args: { search: v.optional(v.string()) },
+  handler: async (ctx, args) => {
+    const title = args.search as string;
+
+    let blogs = [];
+
+    if (title) {
+      blogs = await ctx.db
+        .query("blogs")
+        .withSearchIndex("by_title", (q) => q.search("title", title))
+        .collect();
+    } else {
+      blogs = await ctx.db.query("blogs").order("desc").collect();
+    }
+
+    const blogsWithImages = await Promise.all(
+      blogs.map(async (blog) => {
+        const imageUrl = await ctx.storage.getUrl(blog.storageId);
+        if (!imageUrl) {
+          throw new Error("Image not found");
+        }
+        return { ...blog, imageUrl: imageUrl };
+      })
+    );
+    return blogsWithImages;
+  },
+});

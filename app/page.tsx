@@ -13,7 +13,7 @@ export default function Home() {
   return (
       <div className="pb-14 md:pb-20">
         <Tags />
-        <Featured />
+        <Featured blogs={blogs} />
         <hr className="mx-4 md:mx-7" />
         <BlogList blogs={blogs} />
       </div>

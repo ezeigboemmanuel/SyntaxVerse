@@ -190,8 +190,8 @@ const Write = ({
         .then(() => {
           setLoading(false);
           toast.success(`Article published successfully`);
-          router.push(`/blog/${blogId}`);
           router.refresh()
+          router.push(`/profile/${currentUser?._id}`);
         })
         .catch((error) => {
           console.log(error);

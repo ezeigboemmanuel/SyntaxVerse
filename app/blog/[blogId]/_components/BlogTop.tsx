@@ -9,6 +9,21 @@ import {
 import { Id } from "@/convex/_generated/dataModel";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import toast from "react-hot-toast";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { useState } from "react";
 
 interface BlogTopProps {
   tags: string[];
@@ -28,9 +43,17 @@ const BlogTop = ({
   views,
   userId,
   authorId,
-  blogId
+  blogId,
 }: BlogTopProps) => {
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const router = useRouter();
+
+  const deleteBlog = useMutation(api.blogs.deleteBlog);
+  const onDelete = async () => {
+    deleteBlog({ id: blogId });
+    toast.success("Article deleted successfully.");
+    router.push("/");
+  };
   return (
     <div className="flex flex-col space-y-3">
       <div className="flex justify-between space-x-2">
@@ -48,7 +71,10 @@ const BlogTop = ({
           />
           <div>
             {/* should go to user page */}
-            <Link href={`/profile/${authorId}`} className="font-semibold hover:underline md:text-lg">
+            <Link
+              href={`/profile/${authorId}`}
+              className="font-semibold hover:underline md:text-lg"
+            >
               {authorName}
             </Link>
             <p className="text-gray-500 text-sm md:text-base">Author</p>
@@ -67,22 +93,57 @@ const BlogTop = ({
           </div>
 
           {userId == authorId && (
-            <DropdownMenu>
-              <DropdownMenuTrigger>
-                <Ellipsis />
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DropdownMenuItem onClick={() => {router.push(`/blog/${blogId}/edit`)}} className="cursor-pointer">
-                  Edit
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  onClick={() => {}}
-                  className="text-red-500 hover:!text-red-500  cursor-pointer"
-                >
-                  Delete
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <div>
+              <DropdownMenu>
+                <DropdownMenuTrigger>
+                  <Ellipsis />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuItem
+                    onClick={() => {
+                      router.push(`/blog/${blogId}/edit`);
+                    }}
+                    className="cursor-pointer"
+                  >
+                    Edit
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={() => setIsDialogOpen(true)} 
+                    className="text-red-500 hover:!text-red-500  cursor-pointer"
+                  >
+                    Delete
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+
+              <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+                <DialogTrigger asChild>
+                  {/* Empty div or span, as we trigger dialog from dropdown */}
+                  <span></span>
+                </DialogTrigger>
+                <div className="mx-2">
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>Are you absolutely sure?</DialogTitle>
+                      <DialogDescription>
+                        This action cannot be undone. This will permanently
+                        delete your article and your article comments from our
+                        database.
+                      </DialogDescription>
+                    </DialogHeader>
+
+                    <DialogFooter>
+                      <Button onClick={onDelete} variant="destructive">
+                        Delete
+                      </Button>
+                      <DialogClose asChild>
+                        <Button variant="outline">Cancel</Button>
+                      </DialogClose>
+                    </DialogFooter>
+                  </DialogContent>
+                </div>
+              </Dialog>
+            </div>
           )}
         </div>
       </div>

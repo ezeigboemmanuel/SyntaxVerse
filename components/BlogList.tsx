@@ -24,7 +24,7 @@ const BlogList = ({ blogs }: BlogListProps) => {
     <div className="pt-6 pb-6 md:pt-10 md:pb-10">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-5 gap-y-5 w-full">
         {blogs.map((blog) => (
-          <Link key={blog.title} href={``}>
+          <Link key={blog.title} href={`/blog/${blog._id}`}>
             <div className="group cursor-pointer">
               <div>
                 <AspectRatio ratio={16 / 12}>

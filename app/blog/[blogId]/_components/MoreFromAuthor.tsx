@@ -9,7 +9,7 @@ const MoreFromAuthor = () => {
         More from Ria Donalds
       </h1>
 
-      <BlogList />
+      {/* <BlogList /> */}
 
       <div className="py-10">
         <Separator />

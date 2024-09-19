@@ -6,7 +6,7 @@ const Recommended = () => {
     <div className="pt-4 pb-10 bg-[#FCFCFE] -m-4 px-4 md:px-8">
       <h1 className="font-semibold text-lg md:text-2xl">Recommended reads</h1>
 
-      <BlogList />
+      {/* <BlogList /> */}
     </div>
   );
 };

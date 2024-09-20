@@ -43,7 +43,7 @@ const SinglePageBlog = () => {
       />
 
       {/* Comment */}
-      <Comments />
+      <Comments userId={currentUser?._id} blogId={blog._id} />
 
       {/* Author info */}
       <AuthorInfo />

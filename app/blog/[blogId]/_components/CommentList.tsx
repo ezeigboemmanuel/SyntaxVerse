@@ -93,7 +93,7 @@ const CommentList = ({
                 {comments
                   ?.filter((comment) => currentBlogId === comment.blogId)
                   .map((comment) => (
-                    <div className="max-w-2xl mx-auto w-full py-3 px-2 text-left">
+                    <div key={comment._id} className="max-w-2xl mx-auto w-full py-3 px-2 text-left">
                       <div className="flex items-center justify-between w-full space-x-2">
                         <div className="flex space-x-2">
                           <Image

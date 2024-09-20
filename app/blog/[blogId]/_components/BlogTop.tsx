@@ -82,13 +82,13 @@ const BlogTop = ({
         </div>
 
         <div className="flex space-x-3 md:space-x-5 items-center">
-          <Share className="h-5 w-5 stroke-[#6C40FE]" />
+          <Share className="h-4 w-4 md:h-5 md:w-5 stroke-[#6C40FE]" />
           <div className="flex space-x-1 items-center">
-            <Heart className="h-5 w-5 stroke-[#6C40FE]" />
+            <Heart className="h-4 w-4 md:h-5 md:w-5 stroke-[#6C40FE]" />
             <p className="text-[#6C40FE]">{likes == undefined ? "0" : likes}</p>
           </div>
           <div className="flex space-x-1 items-center">
-            <Eye className="h-5 w-5 stroke-[#6C40FE]" />
+            <Eye className="h-4 w-4 md:h-5 md:w-5 stroke-[#6C40FE]" />
             <p className="text-[#6C40FE]">{views}</p>
           </div>
 
@@ -96,7 +96,7 @@ const BlogTop = ({
             <div>
               <DropdownMenu>
                 <DropdownMenuTrigger>
-                  <Ellipsis />
+                  <Ellipsis className="h-4 w-4 md:h-5 md:w-5" />
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
                   <DropdownMenuItem

@@ -147,7 +147,7 @@ const Comments = ({ userId, blogId }: CommentsProps) => {
               ?.filter((comment) => blogId === comment.blogId) // Step 1: Filter matching comments
               .slice(0, 1) // Step 2: Select only the first one
               .map((comment) => (
-                <div>
+                <div key={comment._id}>
                   <div className="flex items-center justify-between w-full space-x-2">
                     <div className="flex space-x-2">
                       <Image

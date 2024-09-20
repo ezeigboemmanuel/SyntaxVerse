@@ -26,7 +26,7 @@ const MarkdownDisplay = ({ children }: { children: string | null | undefined }) 
         ),
         p: ({ node, ...props }) => (
           <p
-            style={{ fontSize: "17px", lineHeight: "1.6", margin: "10px 0" }}
+            style={{ fontSize: "16px", lineHeight: "1.6", margin: "10px 0" }}
             {...props}
           />
         ),
@@ -56,13 +56,13 @@ const MarkdownDisplay = ({ children }: { children: string | null | undefined }) 
         ),
         ul: ({ node, ...props }) => (
           <ul
-            style={{ fontSize: "17px", listStyleType: "disc", marginLeft: "40px" }}
+            style={{ fontSize: "16px", listStyleType: "disc", marginLeft: "40px" }}
             {...props}
           />
         ),
         ol: ({ node, ...props }) => (
           <ol
-            style={{ fontSize: "17px", listStyleType: "decimal", marginLeft: "40px" }}
+            style={{ fontSize: "16px", listStyleType: "decimal", marginLeft: "40px" }}
             {...props}
           />
         ),

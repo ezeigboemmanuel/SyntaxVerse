@@ -1,6 +1,26 @@
-import React from 'react'
+"use client";
+
+import { usePathname, useRouter} from "next/navigation";
+import queryString from "query-string";
 
 const Searchbar = () => {
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    const url = queryString.stringifyUrl(
+      {
+        url: pathname,
+        query: {
+          search: e.target.value,
+        },
+      },
+      { skipEmptyString: true, skipNull: true }
+    );
+
+    router.push(url);
+  };
   return (
     <div className="w-full mx-auto pl-1 md:pl-8">
       <form className="w-full">
@@ -28,12 +48,13 @@ const Searchbar = () => {
               id="default-search"
               className="block w-full max-w-[500px] px-3 py-2 ps-10 text-sm text-gray-900 border-gray-300 border-b bg-transparent outline-none active:outline-none"
               placeholder="Search Syntaxverse"
+              onChange={handleChange}
             />
           </div>
         </div>
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default Searchbar
+export default Searchbar;

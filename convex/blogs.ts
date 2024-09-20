@@ -145,9 +145,10 @@ export const deleteBlog = mutation({
 });
 
 export const getAllBlogs = query({
-  args: { search: v.optional(v.string()) },
+  args: { search: v.optional(v.string()), category: v.optional(v.string()) },
   handler: async (ctx, args) => {
     const title = args.search as string;
+    const category = args.category as string;
 
     let blogs = [];
 
@@ -169,6 +170,14 @@ export const getAllBlogs = query({
         return { ...blog, imageUrl: imageUrl };
       })
     );
-    return blogsWithImages;
+
+    let filteredBlogs = blogsWithImages.filter((blog) =>
+      blog.categories.includes(category)
+    );
+    if (filteredBlogs.length !== 0) {
+      return filteredBlogs;
+    } else {
+      return blogsWithImages;
+    }
   },
 });

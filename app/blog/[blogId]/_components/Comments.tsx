@@ -12,6 +12,14 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+
 const Comments = () => {
   return (
     <div>
@@ -59,54 +67,100 @@ const Comments = () => {
             embodies the blah blah blah.
           </p>
 
-          <Drawer>
-            <DrawerTrigger>
-              <div className="flex space-x-1 items-center cursor-pointer mt-3 font-semibold ">
-                <p>View all comments</p>
-                <ChevronDown className="w-5 h-5" />
-              </div>
-            </DrawerTrigger>
-            <DrawerContent className="bg-[#FCFCFE] px-1">
-              <DrawerHeader>
-                <DrawerTitle className="mb-4 mx-auto">
-                  Comments (32)
-                </DrawerTitle>
-              </DrawerHeader>
-              <div className="max-h-[50vh] px-4 overflow-y-scroll max-w-2xl mx-auto">
-                <div className="flex items-center justify-between w-full space-x-2">
-                  <div className="flex space-x-2">
-                    <Image
-                      src={AuthorImg}
-                      alt="profile_img"
-                      className="h-8 w-8 md:h-10 md:w-10 rounded-full"
-                    />
+          <div className="md:hidden">
+            <Drawer>
+              <DrawerTrigger>
+                <div className="flex space-x-1 items-center cursor-pointer mt-3 font-semibold ">
+                  <p>View all comments</p>
+                  <ChevronDown className="w-5 h-5" />
+                </div>
+              </DrawerTrigger>
+              <DrawerContent className="bg-[#FCFCFE] px-1">
+                <DrawerHeader>
+                  <DrawerTitle className="mb-4 mx-auto">
+                    Comments (32)
+                  </DrawerTitle>
+                </DrawerHeader>
+                <div className="max-h-[50vh] px-4 overflow-y-scroll max-w-2xl mx-auto">
+                  <div className="flex items-center justify-between w-full space-x-2">
+                    <div className="flex space-x-2">
+                      <Image
+                        src={AuthorImg}
+                        alt="profile_img"
+                        className="h-8 w-8 md:h-10 md:w-10 rounded-full"
+                      />
+                      <div>
+                        {/* should go to user page */}
+                        <p className="font-semibold hover:underline text-sm md:text-base">
+                          Ria Donalds
+                        </p>
+                        <p className="text-gray-500 text-xs md:text-sm">
+                          10 May, 2024
+                        </p>
+                      </div>
+                    </div>
                     <div>
-                      {/* should go to user page */}
-                      <p className="font-semibold hover:underline text-sm md:text-base">
-                        Ria Donalds
-                      </p>
-                      <p className="text-gray-500 text-xs md:text-sm">
-                        10 May, 2024
-                      </p>
+                      <Ellipsis />
                     </div>
                   </div>
-                  <div>
-                    <Ellipsis />
-                  </div>
-                </div>
 
-                <p className="mt-2 text-gray-800 text-sm md:text-base">
-                  I appreciate your effort and I'll love to ship in that UI/UX
-                  embodies the blah blah blah.
-                </p>
-              </div>
-              <DrawerFooter>
-                <DrawerClose>
-                  <Button variant="outline">Close</Button>
-                </DrawerClose>
-              </DrawerFooter>
-            </DrawerContent>
-          </Drawer>
+                  <p className="mt-2 text-gray-800 text-sm md:text-base">
+                    I appreciate your effort and I'll love to ship in that UI/UX
+                    embodies the blah blah blah.
+                  </p>
+                </div>
+                <DrawerFooter>
+                  <DrawerClose>
+                    <Button variant="outline">Close</Button>
+                  </DrawerClose>
+                </DrawerFooter>
+              </DrawerContent>
+            </Drawer>
+          </div>
+
+          <div className="hidden md:inline-block">
+            <Sheet>
+              <SheetTrigger>
+                <div className="flex space-x-1 items-center cursor-pointer mt-3 font-semibold ">
+                  <p>View all comments</p>
+                  <ChevronDown className="w-5 h-5" />
+                </div>
+              </SheetTrigger>
+              <SheetContent className="bg-[#FCFCFE]">
+                <SheetHeader>
+                  <SheetTitle className="mb-4">Comments (32)</SheetTitle>
+                  <div className="max-w-2xl mx-auto">
+                    <div className="flex items-center justify-between w-full space-x-2">
+                      <div className="flex space-x-2">
+                        <Image
+                          src={AuthorImg}
+                          alt="profile_img"
+                          className="h-8 w-8 md:h-10 md:w-10 rounded-full"
+                        />
+                        <div>
+                          {/* should go to user page */}
+                          <p className="font-semibold hover:underline text-sm md:text-base">
+                            Ria Donalds
+                          </p>
+                          <p className="text-gray-500 text-xs md:text-sm">
+                            10 May, 2024
+                          </p>
+                        </div>
+                      </div>
+                      <div>
+                        <Ellipsis />
+                      </div>
+                    </div>
+
+                    <p className="mt-2 text-gray-800 text-sm md:text-base">
+                      I appreciate your effort and I'll love to ship in that
+                      UI/UX embodies the blah blah blah.
+                    </p>
+                  </div>
+                </SheetHeader>
+              </SheetContent>
+            </Sheet>
+          </div>
         </div>
       </div>
     </div>

@@ -96,7 +96,7 @@ const BlogTop = ({
             <div>
               <DropdownMenu>
                 <DropdownMenuTrigger>
-                  <Ellipsis className="h-4 w-4 md:h-5 md:w-5" />
+                  <Ellipsis className="h-5 w-5 md:h-6 md:w-6 mt-2" />
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
                   <DropdownMenuItem

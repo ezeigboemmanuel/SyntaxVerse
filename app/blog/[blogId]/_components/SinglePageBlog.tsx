@@ -36,6 +36,7 @@ const SinglePageBlog = () => {
 
       {/* Content */}
       <Content
+        blogId={blog._id}
         title={blog.title}
         article={blog.article}
         imageUrl={blog.imageUrl}

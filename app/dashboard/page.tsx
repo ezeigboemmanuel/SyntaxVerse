@@ -7,7 +7,7 @@ const DashboardPage = () => {
     <div className="py-10">
       <StatsCard />
 
-      <PopularBlogs />
+      {/* <PopularBlogs /> */}
     </div>
   );
 };

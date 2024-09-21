@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Ellipsis, Eye, Heart, Share } from "lucide-react";
+import { Ellipsis, Eye, Heart, LinkIcon, Share } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -24,6 +24,14 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import Xicon from "@/assets/xicon.svg";
+import Facebookicon from "@/assets/facebookicon.svg";
+import Whatsicon from "@/assets/whatsicon.svg";
+import {
+  TwitterShareButton,
+  FacebookShareButton,
+  WhatsappShareButton,
+} from "next-share";
 
 interface BlogTopProps {
   tags: string[];
@@ -34,6 +42,7 @@ interface BlogTopProps {
   userId: Id<"users"> | undefined;
   authorId: Id<"users"> | undefined;
   blogId: Id<"blogs">;
+  title: string;
 }
 const BlogTop = ({
   tags,
@@ -44,6 +53,7 @@ const BlogTop = ({
   userId,
   authorId,
   blogId,
+  title,
 }: BlogTopProps) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const router = useRouter();
@@ -53,6 +63,11 @@ const BlogTop = ({
     deleteBlog({ id: blogId });
     toast.success("Article deleted successfully.");
     router.push("/");
+  };
+
+  const onCopy = (link: string) => {
+    navigator.clipboard.writeText(link);
+    toast.success("Link copied");
   };
   return (
     <div className="flex flex-col space-y-3">
@@ -82,7 +97,64 @@ const BlogTop = ({
         </div>
 
         <div className="flex space-x-3 md:space-x-5 items-center">
-          <Share className="h-4 w-4 md:h-5 md:w-5 stroke-[#6C40FE]" />
+          <DropdownMenu>
+            <DropdownMenuTrigger>
+              <Share className="h-4 w-4 md:h-5 md:w-5 stroke-[#6C40FE] cursor-pointer" />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="text-gray-700">
+              <DropdownMenuItem
+                className="cursor-pointer"
+                onClick={() =>
+                  onCopy(`https://syntaxverse.vercel.app/blog/${blogId}`)
+                }
+              >
+                <LinkIcon className="w-4 h-4 mr-2" />
+                Copy link
+              </DropdownMenuItem>
+              <DropdownMenuItem className="cursor-pointer">
+                <TwitterShareButton
+                  url={`https://syntaxverse.vercel.app/blog/${blogId}`}
+                  title={`${title}`}
+                >
+                  <div className="flex">
+                    <Image src={Xicon} alt="X" className="h-4 w-4 mr-2" />
+                    <p>Share on X</p>
+                  </div>
+                </TwitterShareButton>
+              </DropdownMenuItem>
+              <DropdownMenuItem className="cursor-pointer">
+                <FacebookShareButton
+                  url={`https://syntaxverse.vercel.app/blog/${blogId}`}
+                  quote={`${title}`}
+                >
+                  <div className="flex">
+                    <Image
+                      src={Facebookicon}
+                      alt="facebook"
+                      className="h-4 w-4 mr-2"
+                    />
+                    <p>Share on facebook</p>
+                  </div>
+                </FacebookShareButton>
+              </DropdownMenuItem>
+              <DropdownMenuItem className="cursor-pointer">
+                <WhatsappShareButton
+                  url={`https://syntaxverse.vercel.app/blog/${blogId}`}
+                  title={`${title}`}
+                  separator=":: "
+                >
+                  <div className="flex">
+                    <Image
+                      src={Whatsicon}
+                      alt="whatsapp"
+                      className="h-4 w-4 mr-2"
+                    />
+                    <p>Share on whatsapp</p>
+                  </div>
+                </WhatsappShareButton>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
           <div className="flex space-x-1 items-center">
             <Heart className="h-4 w-4 md:h-5 md:w-5 stroke-[#6C40FE]" />
             <p className="text-[#6C40FE]">{likes == undefined ? "0" : likes}</p>
@@ -108,7 +180,7 @@ const BlogTop = ({
                     Edit
                   </DropdownMenuItem>
                   <DropdownMenuItem
-                    onClick={() => setIsDialogOpen(true)} 
+                    onClick={() => setIsDialogOpen(true)}
                     className="text-red-500 hover:!text-red-500  cursor-pointer"
                   >
                     Delete

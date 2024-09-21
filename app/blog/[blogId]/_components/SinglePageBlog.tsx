@@ -39,6 +39,7 @@ const SinglePageBlog = () => {
         userId={currentUser?._id}
         authorId={blog.author._id}
         blogId={blog._id}
+        title={blog.title}
       />
 
       {/* Content */}

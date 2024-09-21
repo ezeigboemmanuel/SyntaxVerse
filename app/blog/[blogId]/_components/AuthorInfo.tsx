@@ -1,5 +1,4 @@
 import Image from "next/image";
-import AuthorImg from "@/assets/authorimg.jpg";
 import Xicon from "@/assets/xicon.svg";
 import Facebookicon from "@/assets/facebookicon.svg";
 import Instaicon from "@/assets/instaicon.svg";

@@ -47,7 +47,16 @@ const SinglePageBlog = () => {
       <Comments userId={currentUser?._id} blogId={blog._id} />
 
       {/* Author info */}
-      <AuthorInfo />
+      <AuthorInfo
+        name={blog.author?.name}
+        imageUrl={blog.author?.imageUrl}
+        authorId={blog.author._id}
+        bio={blog.author.bio}
+        xLink={blog.author.xLink}
+        facebookLink={blog.author.facebookLink}
+        instaLink={blog.author.instaLink}
+        whatsappLink={blog.author.whatsappLink}
+      />
       <Separator />
       <MoreFromAuthor />
       <Recommended />

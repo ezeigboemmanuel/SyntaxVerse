@@ -40,7 +40,7 @@ const BlogList = ({ blogs }: BlogListProps) => {
               <div className="uppercase text-gray-600 flex justify-between items-center text-xs md:text-sm  md:mb-4 mt-4 px-2">
                 <div
                   className="mr-2 mb-2 rounded-full border border-gray-600 hover:bg-transparent
-             text-gray-600 hover:text-gray-600 cursor-default text-xs md:text-sm px-5 py-1.5"
+             text-gray-600 hover:text-gray-600 cursor-default text-xs md:text-sm px-5 py-1.5 text-nowrap"
                 >
                   {blog.categories[0]}
                 </div>

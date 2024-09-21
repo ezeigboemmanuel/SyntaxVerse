@@ -181,3 +181,26 @@ export const getAllBlogs = query({
     }
   },
 });
+
+export const getAllBlogsByAuthor = query({
+  args: { id: v.optional(v.id("users")) },
+  handler: async (ctx, args) => {
+    const blogs = await ctx.db
+      .query("blogs")
+      .filter((q) => q.eq(q.field("userId"), args.id))
+      .order("desc")
+      .collect();
+
+    const blogsWithImages = await Promise.all(
+      blogs.map(async (blog) => {
+        const imageUrl = await ctx.storage.getUrl(blog.storageId);
+        if (!imageUrl) {
+          throw new Error("Image not found");
+        }
+        return { ...blog, imageUrl: imageUrl };
+      })
+    );
+
+    return blogsWithImages;
+  },
+});

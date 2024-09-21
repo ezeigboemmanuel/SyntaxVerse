@@ -19,6 +19,10 @@ const SinglePageBlog = () => {
   const blogsByAuthor = useQuery(api.blogs.getAllBlogsByAuthor, {
     id: blog?.userId,
   });
+
+  const recommendedBlogs = useQuery(api.blogs.getRecommendedBlogs, {
+    category: blog?.categories[0],
+  });
   const currentUser = useQuery(api.users.getCurrentUser);
 
   if (blog == undefined) {
@@ -61,8 +65,8 @@ const SinglePageBlog = () => {
         whatsappLink={blog.author.whatsappLink}
       />
       <Separator />
-      {blogsByAuthor && <MoreFromAuthor blogs={blogsByAuthor} />}
-      <Recommended />
+      {blogsByAuthor && <MoreFromAuthor blogs={blogsByAuthor.slice(0, 3)} />}
+      {recommendedBlogs && <Recommended blogs={recommendedBlogs.slice(0, 3)} />}
     </div>
   );
 };

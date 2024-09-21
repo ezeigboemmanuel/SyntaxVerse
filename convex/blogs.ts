@@ -204,3 +204,31 @@ export const getAllBlogsByAuthor = query({
     return blogsWithImages;
   },
 });
+
+export const getRecommendedBlogs = query({
+  args: { category: v.optional(v.string()) },
+  handler: async (ctx, args) => {
+    const category = args.category as string;
+
+    const blogs = await ctx.db.query("blogs").order("desc").collect();
+
+    const blogsWithImages = await Promise.all(
+      blogs.map(async (blog) => {
+        const imageUrl = await ctx.storage.getUrl(blog.storageId);
+        if (!imageUrl) {
+          throw new Error("Image not found");
+        }
+        return { ...blog, imageUrl: imageUrl };
+      })
+    );
+
+    let filteredBlogs = blogsWithImages.filter((blog) =>
+      blog.categories.includes(category)
+    );
+    if (filteredBlogs.length !== 0) {
+      return filteredBlogs;
+    } else {
+      return blogsWithImages;
+    }
+  },
+});

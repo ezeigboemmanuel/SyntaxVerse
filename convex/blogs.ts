@@ -9,7 +9,7 @@ export const storeBlog = mutation({
     imageUrl: v.string(),
     categories: v.array(v.string()),
     views: v.number(),
-    likes: v.optional(v.number()),
+    likes: v.optional(v.array(v.id("users"))),
     storageId: v.id("_storage"),
     format: v.string(),
   },
@@ -83,7 +83,7 @@ export const updateBlog = mutation({
     imageUrl: v.string(),
     categories: v.array(v.string()),
     views: v.number(),
-    likes: v.optional(v.number()),
+    likes: v.optional(v.array(v.id("users"))),
     storageId: v.id("_storage"),
     format: v.string(),
   },
@@ -230,5 +230,36 @@ export const getRecommendedBlogs = query({
     } else {
       return blogsWithImages;
     }
+  },
+});
+
+// For likes
+
+export const toggleLikeBlog = mutation({
+  args: { blogId: v.id("blogs"), userId: v.optional(v.id("users")) },
+  handler: async (ctx, args) => {
+    const blog = await ctx.db.get(args.blogId);
+
+    if (!args.userId) {
+      throw new Error("Unauthenticated.");
+    }
+    if (!blog) {
+      throw new Error("Article not found");
+    }
+
+    const likes = blog.likes || [];
+    // Check if the user already liked the blog
+    const userIndex = likes.indexOf(args.userId);
+    if (userIndex !== -1) {
+      // User already liked the blog, so we remove the like
+      likes.splice(userIndex, 1);
+    } else {
+      // User has not liked the blog yet, so we add the like
+      likes.push(args.userId);
+    }
+
+    await ctx.db.patch(args.blogId, {
+      likes: likes,
+    });
   },
 });

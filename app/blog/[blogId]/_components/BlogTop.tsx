@@ -37,7 +37,7 @@ interface BlogTopProps {
   tags: string[];
   imageUrl: string | undefined;
   authorName: string | undefined;
-  likes: number | undefined;
+  likes: Id<"users">[] | undefined;
   views: number;
   userId: Id<"users"> | undefined;
   authorId: Id<"users"> | undefined;
@@ -56,8 +56,10 @@ const BlogTop = ({
   title,
 }: BlogTopProps) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [liked, setLiked] = useState(false);
   const router = useRouter();
 
+  const toggleLike = useMutation(api.blogs.toggleLikeBlog);
   const deleteBlog = useMutation(api.blogs.deleteBlog);
   const onDelete = async () => {
     deleteBlog({ id: blogId });
@@ -68,6 +70,10 @@ const BlogTop = ({
   const onCopy = (link: string) => {
     navigator.clipboard.writeText(link);
     toast.success("Link copied");
+  };
+
+  const handleLike = async () => {
+    toggleLike({ blogId: blogId, userId: userId });
   };
   return (
     <div className="flex flex-col space-y-3">
@@ -156,8 +162,13 @@ const BlogTop = ({
             </DropdownMenuContent>
           </DropdownMenu>
           <div className="flex space-x-1 items-center">
-            <Heart className="h-4 w-4 md:h-5 md:w-5 stroke-[#6C40FE]" />
-            <p className="text-[#6C40FE]">{likes == undefined ? "0" : likes}</p>
+            <Heart
+              className={`h-4 w-4 md:h-5 md:w-5 stroke-[#6C40FE] cursor-pointer ${likes?.includes(userId as Id<"users">) ? "fill-[#6C40FE]" : ""}`}
+              onClick={handleLike}
+            />
+            <p className="text-[#6C40FE]">
+              {likes == undefined ? "0" : likes.length}
+            </p>
           </div>
           <div className="flex space-x-1 items-center">
             <Eye className="h-4 w-4 md:h-5 md:w-5 stroke-[#6C40FE]" />

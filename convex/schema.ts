@@ -23,7 +23,7 @@ export default defineSchema({
     imageUrl: v.string(),
     storageId: v.id("_storage"),
     format: v.string(),
-    likes: v.optional(v.number()),
+    likes: v.optional(v.array(v.id("users"))),
     views: v.number(),
     categories: v.array(v.string()),
   })

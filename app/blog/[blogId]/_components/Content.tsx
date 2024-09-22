@@ -14,7 +14,7 @@ interface ContentProps {
   title: string;
   imageUrl: string;
   article: string;
-  likes: number | undefined;
+  likes: Id<"users">[] | undefined;
 }
 
 const Content = ({ title, imageUrl, article, likes, blogId }: ContentProps) => {

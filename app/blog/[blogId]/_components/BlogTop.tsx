@@ -23,7 +23,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Xicon from "@/assets/xicon.svg";
 import Facebookicon from "@/assets/facebookicon.svg";
 import Whatsicon from "@/assets/whatsicon.svg";
@@ -37,7 +37,7 @@ interface BlogTopProps {
   tags: string[];
   imageUrl: string | undefined;
   authorName: string | undefined;
-  likes: Id<"users">[] | undefined;
+  likes: string[] | undefined;
   views: number;
   userId: Id<"users"> | undefined;
   authorId: Id<"users"> | undefined;
@@ -56,13 +56,36 @@ const BlogTop = ({
   title,
 }: BlogTopProps) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [liked, setLiked] = useState(false);
+  const [liked, setLiked] = useState<boolean | undefined>(false);
   const router = useRouter();
+
+  const getAnonymousId = () => {
+    let anonymousId = localStorage.getItem("anonymousId");
+    if (!anonymousId) {
+      anonymousId = Math.random().toString(36).substring(2, 15); // Generate random ID
+      localStorage.setItem("anonymousId", anonymousId);
+    }
+    return anonymousId;
+  };
+
+  useEffect(() => {
+    // On component load, get the anonymous ID and check if the blog is liked
+    const anonymousId = getAnonymousId();
+
+    if(!anonymousId){
+      return;
+    }
+    // Check if userId or anonymousId exists in the blog's likes
+    if (anonymousId) {
+      // For authenticated user
+      setLiked(likes?.includes(anonymousId));
+    }
+  }, [blogId, userId]);
 
   const toggleLike = useMutation(api.blogs.toggleLikeBlog);
   const deleteBlog = useMutation(api.blogs.deleteBlog);
   const onDelete = async () => {
-    deleteBlog({ id: blogId });
+    await deleteBlog({ id: blogId });
     toast.success("Article deleted successfully.");
     router.push("/");
   };
@@ -73,7 +96,13 @@ const BlogTop = ({
   };
 
   const handleLike = async () => {
-    toggleLike({ blogId: blogId, userId: userId });
+    if (userId) {
+      await toggleLike({ blogId: blogId, userId: userId });
+    } else {
+      const anonymousId = getAnonymousId();
+      await toggleLike({ blogId: blogId, anonymousId: anonymousId });
+      setLiked(!liked)
+    }
   };
   return (
     <div className="flex flex-col space-y-3">
@@ -163,7 +192,7 @@ const BlogTop = ({
           </DropdownMenu>
           <div className="flex space-x-1 items-center">
             <Heart
-              className={`h-4 w-4 md:h-5 md:w-5 stroke-[#6C40FE] cursor-pointer ${likes?.includes(userId as Id<"users">) ? "fill-[#6C40FE]" : ""}`}
+              className={`h-4 w-4 md:h-5 md:w-5 stroke-[#6C40FE] cursor-pointer ${likes?.includes(userId as Id<"users">) || liked ? "fill-[#6C40FE]" : ""}`}
               onClick={handleLike}
             />
             <p className="text-[#6C40FE]">

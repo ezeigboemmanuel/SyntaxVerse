@@ -14,7 +14,7 @@ interface ContentProps {
   title: string;
   imageUrl: string;
   article: string;
-  likes: Id<"users">[] | undefined;
+  likes: string[] | undefined;
 }
 
 const Content = ({ title, imageUrl, article, likes, blogId }: ContentProps) => {
@@ -62,7 +62,7 @@ const Content = ({ title, imageUrl, article, likes, blogId }: ContentProps) => {
             <Share className="h-5 w-5" />
             <div className="flex space-x-1 items-center">
               <Heart className="h-5 w-5" />
-              <p>{likes == undefined ? "0" : likes}</p>
+              <p>{likes == undefined ? "0" : likes.length}</p>
             </div>
           </div>
         </div>

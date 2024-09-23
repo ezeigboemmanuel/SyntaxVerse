@@ -39,21 +39,6 @@ export const storeComments = mutation({
 
 export const getAllComments = query({
   handler: async (ctx) => {
-    const identity = await ctx.auth.getUserIdentity();
-    if (!identity) {
-      throw new Error("Unauthorized");
-    }
-    const user = await ctx.db
-      .query("users")
-      .withIndex("by_token", (q) =>
-        q.eq("tokenIdentifier", identity.tokenIdentifier)
-      )
-      .unique();
-
-    if (user === null) {
-      return;
-    }
-
     const comments = await ctx.db.query("comments").order("desc").collect();
     const commentWithCreator = await Promise.all(
       comments.map(async (comment) => {

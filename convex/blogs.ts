@@ -236,11 +236,17 @@ export const getRecommendedBlogs = query({
 // For likes
 
 export const toggleLikeBlog = mutation({
-  args: { blogId: v.id("blogs"), userId: v.optional(v.id("users")) },
+  args: {
+    blogId: v.id("blogs"),
+    userId: v.optional(v.id("users")),
+    anonymousId: v.optional(v.string()),
+  },
   handler: async (ctx, args) => {
     const blog = await ctx.db.get(args.blogId);
 
-    if (!args.userId) {
+    let userIdentifier = args.userId || args.anonymousId;
+
+    if (!userIdentifier) {
       throw new Error("Unauthenticated.");
     }
     if (!blog) {
@@ -249,17 +255,19 @@ export const toggleLikeBlog = mutation({
 
     const likes = blog.likes || [];
     // Check if the user already liked the blog
-    const userIndex = likes.indexOf(args.userId);
+    const userIndex = likes.indexOf(userIdentifier);
     if (userIndex !== -1) {
       // User already liked the blog, so we remove the like
       likes.splice(userIndex, 1);
     } else {
       // User has not liked the blog yet, so we add the like
-      likes.push(args.userId);
+      likes.push(userIdentifier);
     }
 
     await ctx.db.patch(args.blogId, {
       likes: likes,
     });
+
+    return { likesCount: likes.length };
   },
 });

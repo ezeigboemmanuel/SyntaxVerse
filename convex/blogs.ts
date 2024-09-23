@@ -267,7 +267,21 @@ export const toggleLikeBlog = mutation({
     await ctx.db.patch(args.blogId, {
       likes: likes,
     });
+  },
+});
 
-    return { likesCount: likes.length };
+export const incrementViewCount = mutation({
+  args: { blogId: v.id("blogs") },
+  handler: async (ctx, args) => {
+    const blog = await ctx.db.get(args.blogId);
+
+    if (!blog) {
+      throw new Error("Article not found");
+    }
+
+    // Increment the views count
+    await ctx.db.patch(args.blogId, {
+      views: (blog.views || 0) + 1,
+    });
   },
 });

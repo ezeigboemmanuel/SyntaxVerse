@@ -7,9 +7,10 @@ import Content from "./Content";
 import MoreFromAuthor from "./MoreFromAuthor";
 import Recommended from "./Recommended";
 import { Separator } from "@/components/ui/separator";
-import { useQuery } from "convex/react";
+import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
+import { useEffect, useState } from "react";
 
 const SinglePageBlog = () => {
   const params = useParams();
@@ -24,10 +25,34 @@ const SinglePageBlog = () => {
     category: blog?.categories[0],
   });
   const currentUser = useQuery(api.users.getCurrentUser);
+  const incrementViewCount = useMutation(api.blogs.incrementViewCount);
+  const [hasViewed, setHasViewed] = useState(false); // Flag to track if the view has been incremented
+  useEffect(() => {
+    const increaseView = async () => {
+      // Check if the blog has already been viewed
+      const viewedBlogs = JSON.parse(
+        localStorage.getItem("viewedBlogs") || "[]"
+      );
+
+      if (!viewedBlogs.includes(params.blogId) && !hasViewed) {
+        await incrementViewCount({ blogId: params.blogId as Id<"blogs"> });
+
+        // Add the blogId to viewedBlogs and update localStorage
+        viewedBlogs.push(params.blogId);
+        localStorage.setItem("viewedBlogs", JSON.stringify(viewedBlogs));
+
+        // Set the flag to true to prevent future increments
+        setHasViewed(true);
+      }
+    };
+
+    increaseView();
+  }, [params, hasViewed]); // Run this effect only when blogId changes
 
   if (blog == undefined) {
     return <p>Loading...</p>;
   }
+
   return (
     <div className="max-w-5xl mx-auto">
       <BlogTop

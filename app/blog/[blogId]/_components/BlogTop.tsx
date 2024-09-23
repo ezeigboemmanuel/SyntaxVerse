@@ -57,6 +57,7 @@ const BlogTop = ({
 }: BlogTopProps) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [liked, setLiked] = useState<boolean | undefined>(false);
+
   const router = useRouter();
 
   const getAnonymousId = () => {
@@ -68,11 +69,12 @@ const BlogTop = ({
     return anonymousId;
   };
 
+
   useEffect(() => {
     // On component load, get the anonymous ID and check if the blog is liked
     const anonymousId = getAnonymousId();
 
-    if(!anonymousId){
+    if (!anonymousId) {
       return;
     }
     // Check if userId or anonymousId exists in the blog's likes
@@ -81,6 +83,7 @@ const BlogTop = ({
       setLiked(likes?.includes(anonymousId));
     }
   }, [blogId, userId]);
+
 
   const toggleLike = useMutation(api.blogs.toggleLikeBlog);
   const deleteBlog = useMutation(api.blogs.deleteBlog);
@@ -101,7 +104,7 @@ const BlogTop = ({
     } else {
       const anonymousId = getAnonymousId();
       await toggleLike({ blogId: blogId, anonymousId: anonymousId });
-      setLiked(!liked)
+      setLiked(!liked);
     }
   };
   return (
@@ -130,7 +133,7 @@ const BlogTop = ({
             <p className="text-gray-500 text-sm md:text-base">Author</p>
           </div>
         </div>
-
+        {/* Make share and like their own component */}
         <div className="flex space-x-3 md:space-x-5 items-center">
           <DropdownMenu>
             <DropdownMenuTrigger>

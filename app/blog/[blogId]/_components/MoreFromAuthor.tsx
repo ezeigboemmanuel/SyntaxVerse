@@ -9,7 +9,7 @@ interface MoreFromAuthorProps {
         imageUrl: string;
         _id: Id<"blogs">;
         _creationTime: number;
-        likes?: Id<"users">[] | undefined;
+        likes?: string[] | undefined;
         storageId: Id<"_storage">;
         format: string;
         userId: Id<"users">;

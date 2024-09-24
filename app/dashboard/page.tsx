@@ -6,6 +6,7 @@ import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
+import HashLoader from "react-spinners/HashLoader";
 
 const DashboardPage = () => {
   const router = useRouter();
@@ -21,7 +22,11 @@ const DashboardPage = () => {
   });
 
   if (!blogsByAuthor) {
-    return <p>Loading...</p>;
+    return (
+      <div className="h-[100vh] w-full flex justify-center items-center">
+        <HashLoader color="#6C40FE" />
+      </div>
+    );
   }
   return (
     <div className="py-10">

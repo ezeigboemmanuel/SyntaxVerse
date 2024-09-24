@@ -5,7 +5,7 @@ import Tags from "@/components/Tags";
 import { api } from "@/convex/_generated/api";
 import { useQuery } from "convex/react";
 import { useSearchParams } from "next/navigation";
-import { useState } from "react";
+import HashLoader from "react-spinners/HashLoader";
 
 export default function Home() {
   const searchParams = useSearchParams();
@@ -19,7 +19,11 @@ export default function Home() {
   });
 
   if (blogs === undefined) {
-    return <p>Loading...</p>;
+    return (
+      <div className="h-[100vh] w-full flex justify-center items-center">
+        <HashLoader color="#6C40FE" />
+      </div>
+    );
   }
   return (
     <div className="pb-14 md:pb-20">

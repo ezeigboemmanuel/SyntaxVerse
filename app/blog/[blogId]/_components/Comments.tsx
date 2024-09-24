@@ -202,14 +202,14 @@ const Comments = ({ userId, blogId }: CommentsProps) => {
                 </div>
               ))}
 
-          {comments && comments.length > 0 && (
+          {comments?.filter((comment) => blogId === comment.blogId).length ? (
             <CommentList
               currentBlogId={blogId}
               setComment={setComment}
               setEdit={setEdit}
               setId={setId}
             />
-          )}
+          ) : <p>No comments yet</p>}
         </div>
       </div>
     </div>

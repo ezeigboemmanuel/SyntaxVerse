@@ -11,10 +11,10 @@ export async function generateMetadata({ params }: { params: { blogId: Id<"blogs
   return {
     metadataBase: new URL("https://syntaxverse.vercel.app"),
     title: blog.title,
-    description: blog.article.slice(0, 100),
+    description: blog.article.slice(0, 200),
     openGraph: {
       title: blog.title,
-      description: blog.article.slice(0, 100),
+      description: blog.article.slice(0, 200),
       url: `https://syntaxverse.vercel.app/blog/${blog._id}`,
       siteName: "SyntaxVerse",
       images: [

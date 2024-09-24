@@ -31,7 +31,7 @@ const ProfilePage = async ({
         xLink={user.xLink}
       />
 
-      {/* <AllBlogs /> */}
+      <AllBlogs id={user._id} />
     </div>
   );
 };

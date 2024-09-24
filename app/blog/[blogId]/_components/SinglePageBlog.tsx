@@ -11,6 +11,7 @@ import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { useEffect, useState } from "react";
+import HashLoader from "react-spinners/HashLoader";
 
 const SinglePageBlog = () => {
   const params = useParams();
@@ -50,7 +51,11 @@ const SinglePageBlog = () => {
   }, [params, hasViewed]); // Run this effect only when blogId changes
 
   if (blog == undefined) {
-    return <p>Loading...</p>;
+    return (
+      <div className="h-[100vh] w-full flex justify-center items-center">
+        <HashLoader color="#6C40FE" />
+      </div>
+    );
   }
 
   return (

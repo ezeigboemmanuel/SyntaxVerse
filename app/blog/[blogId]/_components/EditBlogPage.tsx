@@ -6,6 +6,7 @@ import { useUser } from "@clerk/nextjs";
 import { useQuery } from "convex/react";
 import { useParams, useRouter } from "next/navigation";
 import React from "react";
+import HashLoader from "react-spinners/HashLoader";
 
 const EditBlogPage = () => {
   const params = useParams();
@@ -21,7 +22,11 @@ const EditBlogPage = () => {
     return;
   }
   if (!blog || !currentUser) {
-    return <p>Loading...</p>;
+    return (
+      <div className="h-[100vh] w-full flex justify-center items-center">
+        <HashLoader color="#6C40FE" />
+      </div>
+    );
   }
 
   if (blog.author._id !== currentUser._id) {

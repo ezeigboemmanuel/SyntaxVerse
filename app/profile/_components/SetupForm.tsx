@@ -25,6 +25,7 @@ import { api } from "@/convex/_generated/api";
 import toast from "react-hot-toast";
 import { usePathname, useRouter } from "next/navigation";
 import { Id } from "@/convex/_generated/dataModel";
+import HashLoader from "react-spinners/HashLoader";
 
 const setupFormSchema = z.object({
   name: z
@@ -72,7 +73,11 @@ export default function SetupForm({ currentUser }: SetupFormProps) {
   const pathname = usePathname();
 
   if (!user) {
-    return <>Loading...</>;
+    return (
+      <div className="h-[100vh] w-full flex justify-center items-center">
+        <HashLoader color="#6C40FE" />
+      </div>
+    );
   }
 
   const [imageUrl, setImageUrl] = useState<string | undefined | null>(

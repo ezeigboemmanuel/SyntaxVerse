@@ -1,14 +1,15 @@
-"use client"
-import SetupForm  from "../../_components/SetupForm";
+"use client";
+import SetupForm from "../../_components/SetupForm";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useParams, useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { useUser } from "@clerk/nextjs";
+import HashLoader from "react-spinners/HashLoader";
 
 const ProfileEditPage = () => {
   const params = useParams();
-  const router = useRouter()
+  const router = useRouter();
   const currentUser = useQuery(api.users.getCurrentUser);
   const { user } = useUser();
 
@@ -17,13 +18,17 @@ const ProfileEditPage = () => {
     return;
   }
 
-  if(!currentUser){
-    return <p>Loading...</p>
+  if (!currentUser) {
+    return (
+      <div className="h-[100vh] w-full flex justify-center items-center">
+        <HashLoader color="#6C40FE" />
+      </div>
+    );
   }
 
-  if(currentUser?._id !== params.profileId){
-    toast.error("Unauthorised")
-    router.push("/")
+  if (currentUser?._id !== params.profileId) {
+    toast.error("Unauthorised");
+    router.push("/");
     return;
   }
   return (

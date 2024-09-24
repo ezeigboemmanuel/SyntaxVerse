@@ -4,11 +4,18 @@ import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useParams, useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import { useUser } from "@clerk/nextjs";
 
 const ProfileEditPage = () => {
   const params = useParams();
   const router = useRouter()
   const currentUser = useQuery(api.users.getCurrentUser);
+  const { user } = useUser();
+
+  if (!user) {
+    router.push("/");
+    return;
+  }
 
   if(!currentUser){
     return <p>Loading...</p>

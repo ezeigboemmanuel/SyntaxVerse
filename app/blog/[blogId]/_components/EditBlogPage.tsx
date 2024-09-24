@@ -2,6 +2,7 @@
 import Write from "@/components/Write";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
+import { useUser } from "@clerk/nextjs";
 import { useQuery } from "convex/react";
 import { useParams, useRouter } from "next/navigation";
 import React from "react";
@@ -13,9 +14,14 @@ const EditBlogPage = () => {
     id: params.blogId as Id<"blogs">,
   });
   const currentUser = useQuery(api.users.getCurrentUser);
+  const { user } = useUser();
 
-  if (!blog || !currentUser) {
+  if (!user) {
+    router.push("/");
     return;
+  }
+  if (!blog || !currentUser) {
+    return <p>Loading...</p>;
   }
 
   if (blog.author._id !== currentUser._id) {

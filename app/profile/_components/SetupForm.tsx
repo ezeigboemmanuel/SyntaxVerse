@@ -203,6 +203,7 @@ export default function SetupForm({ currentUser }: SetupFormProps) {
           .catch((error) => {
             console.log(error);
             toast.success("Profile creation error.");
+            router.refresh();
           });
       }
 

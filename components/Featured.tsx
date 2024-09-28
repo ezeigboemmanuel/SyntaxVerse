@@ -44,15 +44,14 @@ const Featured = ({ blogs }: FeaturedProps) => {
         return (
           <Link key={item._id} href={`/blog/${item._id}`}>
             <div className="mt-6 mb-6 md:mt-10 md:mb-10 bg-[#FCFCFE] rounded-xl group flex flex-col md:flex-row cursor-pointer">
-              <div className="w-full max-w-2xl md:h-[450px]">
-                <AspectRatio ratio={16 / 14}>
-                  <Image
-                    src={item.imageUrl}
-                    alt="featured Image"
-                    fill
-                    className="rounded-t-xl md:rounded-l-xl md:rounded-tr-none object-cover object-center max-h-[380px] md:max-h-[450px]"
-                  />
-                </AspectRatio>
+              <div className="w-full max-w-2xl">
+                <Image
+                  src={item.imageUrl}
+                  alt="featured Image"
+                  className="rounded-t-xl md:rounded-l-xl md:rounded-tr-none object-cover object-center w-full max-h-[380px] md:max-h-[450px]"
+                  width={1000}
+                  height={1000}
+                />
               </div>
               <div className="p-3 md:p-10 flex flex-col w-full md:min-h-[450px]">
                 <div className="uppercase text-gray-600 flex justify-between text-sm md:text-base mb-2 md:mb-4">

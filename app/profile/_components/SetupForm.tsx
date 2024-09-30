@@ -133,7 +133,8 @@ export default function SetupForm({ currentUser }: SetupFormProps) {
         })
         .catch((error) => {
           console.log(error);
-          toast.success("Profile creation error.");
+          toast.error("Profile creation error.");
+          router.push("/");
         });
     }
 
@@ -160,7 +161,7 @@ export default function SetupForm({ currentUser }: SetupFormProps) {
               })
               .catch((error) => {
                 console.log(error);
-                toast.success("Update profile error");
+                toast.error("Update profile error");
               })
           : toast.error("An error occurred.");
       }
@@ -232,7 +233,7 @@ export default function SetupForm({ currentUser }: SetupFormProps) {
                 })
                 .catch((error) => {
                   console.log(error);
-                  toast.success("Update profile error");
+                  toast.error("Update profile error");
                 })
             : toast.error("An error occurred.");
         }

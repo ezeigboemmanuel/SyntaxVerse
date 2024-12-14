@@ -45,7 +45,7 @@ const Content = ({ title, imageUrl, article, likes, blogId }: ContentProps) => {
         </AspectRatio>
       </div>
 
-      <div className="py-3">
+      <div className="py-3 text-[#333] leading-7">
         <MarkdownDisplay>{article}</MarkdownDisplay>
 
         <div className="py-3 flex justify-between items-center text-gray-700">

@@ -26,7 +26,7 @@ const MarkdownDisplay = ({ children }: { children: string | null | undefined }) 
         ),
         p: ({ node, ...props }) => (
           <p
-            style={{ fontSize: "16px", lineHeight: "1.6", margin: "10px 0" }}
+            style={{ fontSize: "16.5px", lineHeight: "1.8", margin: "10px 0", letterSpacing: "0.5px" }}
             {...props}
           />
         ),
@@ -56,18 +56,18 @@ const MarkdownDisplay = ({ children }: { children: string | null | undefined }) 
         ),
         ul: ({ node, ...props }) => (
           <ul
-            style={{ fontSize: "16px", listStyleType: "disc", marginLeft: "40px" }}
+            style={{ fontSize: "16.5px", listStyleType: "disc", marginLeft: "40px", lineHeight: "1.8", letterSpacing: "0.6" }}
             {...props}
           />
         ),
         ol: ({ node, ...props }) => (
           <ol
-            style={{ fontSize: "16px", listStyleType: "decimal", marginLeft: "40px" }}
+            style={{ fontSize: "16.5px", listStyleType: "decimal", marginLeft: "40px", lineHeight: "1.8", letterSpacing: "0.5" }}
             {...props}
           />
         ),
         li: ({ node, ...props }) => (
-          <li style={{ marginBottom: "8px" }} {...props} />
+          <li style={{ marginBottom: "9px",letterSpacing: "0.5" }} {...props} />
         ),
         table: ({ node, ...props }) => (
           <table
